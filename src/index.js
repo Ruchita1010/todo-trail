@@ -1,1 +1,2 @@
-console.log("setting up the project （￣︶￣)")
+import './styles/main.css';
+import './styles/nav.css';

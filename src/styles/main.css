@@ -1,0 +1,27 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: hsl(239, 95%, 58%);
+  --elem-shadow: hsl(239, 100%, 50%);
+  --text-color: hsl(0, 0%, 99%);
+}
+
+.container {
+  display: flex;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 2;
+  padding: 1rem;
+  font-size: 2vmax;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
