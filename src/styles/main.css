@@ -25,3 +25,7 @@ main {
   color: var(--text-color);
   background-color: var(--bg-color);
 }
+
+.bg-img {
+  width: 20vmax;
+}
