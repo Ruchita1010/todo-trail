@@ -5,9 +5,9 @@
 }
 
 :root {
-  --bg-color: hsl(239, 95%, 58%);
-  --elem-shadow: hsl(239, 100%, 50%);
-  --text-color: hsl(0, 0%, 99%);
+  --primary: hsl(210, 8%, 95%);
+  --elem-shadow: hsl(0, 0%, 76%);
+  --secondary: hsl(24, 10%, 10%);
 }
 
 .container {
@@ -22,8 +22,8 @@ main {
   flex-grow: 2;
   padding: 1rem;
   font-size: 2vmax;
-  color: var(--text-color);
-  background-color: var(--bg-color);
+  color: var(--secondary);
+  background-color: var(--primary);
 }
 
 .bg-img {

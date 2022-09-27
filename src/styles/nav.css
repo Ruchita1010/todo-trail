@@ -4,7 +4,7 @@ nav {
   top: 0;
   left: 0;
   padding: 1rem;
-  background-color: var(--bg-color);
+  background-color: var(--primary);
   box-shadow: 3px 0px 20px var(--elem-shadow);
 }
 
@@ -26,9 +26,9 @@ nav {
 }
 
 .material-symbols-outlined {
-  font-size: 3vmax;
+  font-size: 3.2vmax;
   font-weight: lighter;
-  color: var(--text-color);
+  color: var(--secondary);
 }
 
 /* for tooltip */
@@ -39,14 +39,15 @@ nav {
   width: 80px;
   padding: 6px 2px;
   text-align: center;
-  color: var(--bg-color);
-  background-color: var(--text-color);
+  color: var(--primary);
+  background-color: var(--secondary);
   border-radius: 3px;
   outline: none;
   border: none;
 
   /* Position the nav-link text */
   position: absolute;
+  top: 10%;
   z-index: 1;
   margin-left: 6px;
 
@@ -63,7 +64,7 @@ nav {
   right: 100%;
   border-width: 6px;
   border-style: solid;
-  border-color: var(--text-color) transparent transparent transparent;
+  border-color: var(--secondary) transparent transparent transparent;
   transform: rotate(90deg);
 }
 

@@ -1,17 +1,17 @@
 import './styles/main.css';
 import './styles/nav.css';
-import sadBluey from './assets/sad-bluey.png';
+import emptyTodoBgImg from './assets/emptytodo-bg-img.png';
 
 const setEmptyTodoBackground = () => {
   const main = document.querySelector('main');
-  const emptyTodoBgImg = document.createElement('img');
-  emptyTodoBgImg.classList.add('bg-img');
-  emptyTodoBgImg.src = sadBluey;
-  const emptyTodoText = document.createElement('p');
-  emptyTodoText.innerText = 'Nothing yet...';
+  const emptyTodoBgImgElem = document.createElement('img');
+  emptyTodoBgImgElem.classList.add('bg-img');
+  emptyTodoBgImgElem.src = emptyTodoBgImg;
+  const emptyTodoTextElem = document.createElement('p');
+  emptyTodoTextElem.innerText = 'Nothing yet...';
   main.innerText = '';
-  main.appendChild(emptyTodoText);
-  main.appendChild(emptyTodoBgImg);
+  main.appendChild(emptyTodoTextElem);
+  main.appendChild(emptyTodoBgImgElem);
 };
 
 setEmptyTodoBackground();
