@@ -12,6 +12,7 @@ body {
 :root {
   --primary: hsl(210, 8%, 95%);
   --secondary: hsl(24, 10%, 10%);
+  --accent: hsl(24, 10%, 10%, 0.221);
   --elem-shadow: hsl(0, 0%, 76%);
 }
 
@@ -23,6 +24,9 @@ body {
 .icon {
   font-weight: lighter;
   color: var(--secondary);
+  /* We need to remove pointer events on icon here, so that the element containing them gets clicked 
+  resulting in e.target === the container element of the icon and e.target !== the icon element itself!! */
+  pointer-events: none;
 }
 
 main {
@@ -30,14 +34,8 @@ main {
   font-size: 2vmax;
   color: var(--secondary);
   background-color: var(--primary);
+  /* makes the main scrollable (given the parent has overflow:hidden) keeping the nav fixed */
   overflow-y: auto;
-}
-
-.wrapper {
-  width: 100%;
-  min-height: 100vh;
-  display: grid;
-  place-content: center;
 }
 
 /* for background image when there's nothing to show */
@@ -45,7 +43,7 @@ main {
   width: 20vmax;
 }
 
-/* to put the nav below the main element */
+/* to put the nav below the main element (fixed bottom navbar)*/
 @media (max-width: 480px) {
   .container {
     flex-direction: column-reverse;

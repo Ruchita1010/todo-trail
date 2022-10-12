@@ -9,7 +9,7 @@ nav {
   margin: 1rem 0 3rem 0;
 }
 
-.nav-links {
+.nav-list {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -18,20 +18,61 @@ nav {
   list-style: none;
 }
 
-.nav-link {
+.nav-list-item {
+  /* adding relative position for tool-tip */
   position: relative;
   display: inline-block;
   padding-bottom: 2vmax;
+}
+
+.nav-list-item:hover {
+  cursor: pointer;
 }
 
 .icon-nav {
   font-size: 3.2vmax;
 }
 
-/* for tooltip */
+.create-btn {
+  /* adding for create-option */
+  position: relative;
+}
 
-/* nav-link text */
-.nav-link .tooltip-text {
+/* Using opacity because transition cannot be performed on display */
+.create-options {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.create-option {
+  position: absolute;
+  /* inset puts all the create-option elems on top of the create-btn */
+  inset: 0;
+  /* using grid only for the sake of centering items */
+  display: grid;
+  place-content: center;
+  padding: 2vmax;
+  background-color: var(--primary);
+  box-shadow: 0px 0px 10px var(--elem-shadow);
+  transition: transform 0.5s ease-in-out;
+  border-radius: 5px;
+}
+
+.show-options {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.show-options.create-options > .create-option:nth-child(1) {
+  transform: translate(6vmax, -4.5vmax);
+}
+
+.show-options.create-options > .create-option:nth-child(2) {
+  transform: translate(6vmax, 2.5vmax);
+}
+
+/* tooltip */
+.tooltip-text {
   visibility: hidden;
   width: 6vmax;
   padding: 6px 2px;
@@ -43,18 +84,18 @@ nav {
   outline: none;
   border: none;
 
-  /* Position the nav-link text */
+  /* Position the text */
   position: absolute;
   z-index: 1;
   margin-left: 6px;
 
-  /* Fade in nav-link */
+  /* Fade in */
   opacity: 0;
   transition: opacity 0.3s;
 }
 
-/* nav-link arrow */
-.nav-link .tooltip-text::before {
+/* arrow */
+.tooltip-text::before {
   content: '';
   position: absolute;
   border-width: 6px;
@@ -62,30 +103,41 @@ nav {
   border-color: var(--secondary) transparent transparent transparent;
 }
 
-/* Show the nav-link text when you mouse over the nav-link container */
-.nav-link:hover .tooltip-text {
+/* Show the text when you mouse over the text container */
+.nav-list-item:hover .nav-list-item-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
 
-/* Larger than mobile devices */
+.create-option:hover .create-option-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* For larger than mobile devices */
 @media (min-width: 768px) {
   nav {
     top: 0;
     left: 0;
   }
 
-  .nav-link .tooltip-text {
+  .nav-list-item .tooltip-text {
     top: 10%;
   }
 
-  .nav-link .tooltip-text::before {
+  .nav-list-item .tooltip-text::before {
     top: 30%;
     right: 100%;
     transform: rotate(90deg);
   }
+
+  .create-option .tooltip-text {
+    top: 35%;
+    left: 100%;
+  }
 }
 
+/* For mobile devices */
 @media (max-width: 480px) {
   nav {
     bottom: 0;
@@ -95,13 +147,13 @@ nav {
     display: none;
   }
 
-  .nav-links {
+  .nav-list {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
 
-  .nav-link {
+  .nav-list-item {
     padding: 0;
   }
 
@@ -109,7 +161,7 @@ nav {
     font-size: 6vmax;
   }
 
-  .nav-link .tooltip-text {
+  .nav-list-item .tooltip-text {
     width: 10vmax;
     font-size: 2vmax;
     bottom: 100%;
@@ -117,8 +169,20 @@ nav {
     right: 50%;
   }
 
-  .nav-link .tooltip-text::before {
+  .nav-list-item .tooltip-text::before {
     top: 100%;
     right: 40%;
+  }
+
+  .create-option {
+    padding: 4.5vmax;
+  }
+
+  .show-options.create-options > .create-option:nth-child(1) {
+    transform: translate(-7.5vmax, -12.5vmax);
+  }
+
+  .show-options.create-options > .create-option:nth-child(2) {
+    transform: translate(4.5vmax, -12.5vmax);
   }
 }
