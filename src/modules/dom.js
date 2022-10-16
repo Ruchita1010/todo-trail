@@ -1,3 +1,4 @@
+// Utils ---
 const getSimilarClassElements = (elemClass) => {
   const elemArray = document.querySelectorAll(`.${elemClass}`);
   return [...elemArray];
@@ -25,40 +26,56 @@ const updateMain = (elem) => {
 
 const getUserInputs = (parentModalElem) => {
   const userInputDivs = getSimilarClassElements(
-    `.${parentModalElem} .user-input`
+    `${parentModalElem} .user-input`
   );
   return [...userInputDivs].map((userInput) => userInput.children[1].value);
 };
 
-const createTodo = () => {
-  const [title, description, date, project, priority] =
-    getUserInputs('todo-modal');
+// Creating elements ---
+const createTodo = ([title, description, date, , priority]) => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
   newTodo.innerHTML = ` <p>Title ${title}</p>
-        <p>Project ${project}</p>
-        <p>Due Date ${date}</p>
-        <p>Priority ${priority}</p>
-        <p>Desc ${description}</p>`;
+  <p>Project ${project}</p>
+  <p>Due Date ${date}</p>
+  <p>Priority ${priority}</p>
+  <p>Desc ${description}</p>`;
   return newTodo;
 };
 
-const addTodo = () => {
-  const newTodo = createTodo();
-  updateMain(newTodo);
+const createProjectOption = (projectTitle) => {
+  const projectOption = document.createElement('option');
+  projectOption.value = projectTitle;
+  projectOption.innerText = projectTitle;
+  return projectOption;
 };
 
-const createProject = (title) => {
+const createProject = ([projectTitle]) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
-  newProject.innerHTML = `<p>Title ${title}</p>`;
+  newProject.innerHTML = `<p>Title ${projectTitle}</p>`;
   return newProject;
 };
 
+// Adding elements ---
+const addTodo = () => {
+  const userInputs = getUserInputs('todo-modal');
+  const newTodo = createTodo(userInputs);
+  updateMain(newTodo);
+};
+
+const addProjectOption = ([projectTitle]) => {
+  const projectOptions = document.querySelector('#project-options');
+  const projectOption = createProjectOption(projectTitle);
+  projectOptions.appendChild(projectOption);
+};
+
 const addProject = () => {
-  const [title] = getUserInputs('project-modal');
-  const newProject = createProject(title);
+  const userInputs = getUserInputs('project-modal');
+  const newProject = createProject(userInputs);
   updateMain(newProject);
+  // Adds to the project-options (dropdown)
+  addProjectOption(userInputs);
 };
 
 const addUserInputData = (e) => {
@@ -71,6 +88,7 @@ const addUserInputData = (e) => {
   closeModal(e);
 };
 
+// Listening for modal buttons ---
 const listenForDoneBtns = () => {
   const doneBtns = getSimilarClassElements('done-btn');
   doneBtns.forEach((doneBtn) => {
@@ -85,6 +103,7 @@ const listenForCloseBtnClick = () => {
   });
 };
 
+// For create options ---
 const showCreateOption = (e) => {
   // hide create options
   toggleDisplay('create-options', 'options');
