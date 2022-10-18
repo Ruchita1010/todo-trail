@@ -19,16 +19,21 @@ const closeModal = (e) => {
   toggleDisplay('modal-wrapper', 'modal');
 };
 
-const updateMain = (elem) => {
-  const main = document.querySelector('main');
-  main.appendChild(elem);
-};
-
 const getUserInputs = (parentModalElem) => {
   const userInputDivs = getSimilarClassElements(
     `${parentModalElem} .user-input`
   );
   return [...userInputDivs].map((userInput) => userInput.children[1].value);
+};
+
+const appendToWrapperDiv = (wrapperClass, newProject) => {
+  const wrapperDiv = document.querySelector(`.${wrapperClass}-wrapper`);
+  wrapperDiv.appendChild(newProject);
+};
+
+let selectedProjectBg = '';
+const setProjectBg = (e) => {
+  selectedProjectBg = e.target.src;
 };
 
 // Creating elements ---
@@ -53,7 +58,18 @@ const createProjectOption = (projectTitle) => {
 const createProject = ([projectTitle]) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
-  newProject.innerHTML = `<p>Title ${projectTitle}</p>`;
+  newProject.innerHTML = `
+  <button class="delete-project-btn">
+    <span class="material-symbols-outlined icon">
+      delete
+    </span>
+  </button>
+  <img src="${selectedProjectBg}" alt="" />
+  <div class="project-details">
+    <h3 class="project-title">${projectTitle}</h3>
+    <p class="high-priority-stats">High priority tasks: 3</p>
+  </div>
+  `;
   return newProject;
 };
 
@@ -73,7 +89,7 @@ const addProjectOption = ([projectTitle]) => {
 const addProject = () => {
   const userInputs = getUserInputs('project-modal');
   const newProject = createProject(userInputs);
-  updateMain(newProject);
+  appendToWrapperDiv('projects', newProject);
   // Adds to the project-options (dropdown)
   addProjectOption(userInputs);
 };
@@ -86,6 +102,14 @@ const addUserInputData = (e) => {
     addTodo();
   }
   closeModal(e);
+};
+
+// Listening for project background images ---
+const listenForProjectBgs = () => {
+  const projectBgInput = document.querySelector('.project-bg-input');
+  projectBgInput.addEventListener('click', (e) => {
+    setProjectBg(e);
+  });
 };
 
 // Listening for modal buttons ---
@@ -114,6 +138,9 @@ const showCreateOption = (e) => {
     toggleDisplay('todo-modal', 'modal');
   } else {
     toggleDisplay('project-modal', 'modal');
+    /* Cannot be called in addUserInputData or elsewhere 'cause event listener is not getting 
+    added to projectBg (Reason yet unknown) */
+    listenForProjectBgs();
   }
   listenForDoneBtns();
   listenForCloseBtnClick();
