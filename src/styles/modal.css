@@ -49,6 +49,28 @@
   border: 1px solid var(--secondary);
 }
 
+/* background input for project */
+.project-bg-input {
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2.8rem, 1fr));
+  margin: 10px 0 2rem 0;
+}
+
+.project-bg {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.project-bg:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  border: 1px solid var(--secondary);
+}
+
+/* modal buttons */
 .modal-btns {
   width: 100%;
   display: flex;
