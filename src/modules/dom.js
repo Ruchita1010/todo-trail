@@ -40,11 +40,18 @@ const setProjectBg = (e) => {
 const createTodo = ([title, description, date, , priority]) => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
-  newTodo.innerHTML = ` <p>Title ${title}</p>
-  <p>Project ${project}</p>
-  <p>Due Date ${date}</p>
-  <p>Priority ${priority}</p>
-  <p>Desc ${description}</p>`;
+  newTodo.innerHTML = `
+  <div class="todo-header">
+    <input type="checkbox" name="todo-checkbox" id="todo-checkbox" />
+    <span class="due-date-label">${date}</span>
+    <span class="priority-label">${priority}</span>
+    <span class="material-symbols-outlined icon delete-todo-btn"> delete </span>
+  </div>
+  <div class="todo-content">
+      <p class="todo-title">${title}</p>
+      <p class="todo-description">${description}</p>
+  </div>
+  `;
   return newTodo;
 };
 
@@ -77,7 +84,7 @@ const createProject = ([projectTitle]) => {
 const addTodo = () => {
   const userInputs = getUserInputs('todo-modal');
   const newTodo = createTodo(userInputs);
-  updateMain(newTodo);
+  appendToWrapperDiv('todos', newTodo);
 };
 
 const addProjectOption = ([projectTitle]) => {

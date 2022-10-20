@@ -1,0 +1,96 @@
+.todos-wrapper {
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  padding: 2vmax;
+}
+
+.todo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary);
+  box-shadow: 0px 0px 6px var(--elem-shadow);
+  border-radius: 5px;
+}
+
+.todo:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 6px var(--accent);
+}
+
+.todo-header {
+  display: grid;
+  grid-template-columns: 0.2fr 0.5fr 0.5fr 4fr;
+  place-items: center start;
+  gap: 10px;
+  padding: 1vmax 2vmax;
+  font-size: 1.8vmax;
+  /* to stop the date from wrapping */
+  white-space: nowrap;
+}
+
+input[type='checkbox'] {
+  width: 2vmax;
+  height: 2vmax;
+  background: var(--transparent-secondary);
+  appearance: none;
+  -webkit-appearance: none;
+  accent-color: var(--accent);
+  transition: box-shadow 0.3s;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+input:checked {
+  box-shadow: inset 0 0 0 20px var(--accent);
+}
+
+.priority-label {
+  background-color: var(--accent);
+  padding: 0px 8px;
+}
+
+.todo-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2vmax 1vmax 2vmax;
+  font-size: 1.5vmax;
+}
+
+.todo-title {
+  font-size: 2.2vmax;
+  font-weight: bold;
+  padding: 0 0 10px 0px;
+}
+
+.delete-todo-btn {
+  place-self: center end;
+  padding: 3px;
+  font-size: 2.2vmax;
+  background-color: var(--transparent-secondary);
+  border-radius: 2px;
+}
+
+.delete-todo-btn:hover {
+  cursor: pointer;
+}
+
+/* For smartphones */
+@media (max-width: 480px) {
+  .todo-header {
+    font-size: 2.2vmax;
+  }
+
+  .todo-content {
+    font-size: 2vmax;
+  }
+
+  .todo-title {
+    font-size: 2.4vmax;
+  }
+
+  .delete-todo-btn {
+    font-size: 3.2vmax;
+  }
+}

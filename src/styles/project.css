@@ -86,7 +86,7 @@
   }
 }
 
-/* For mobile devices */
+/* For tablets and smartphones */
 @media (max-width: 768px) {
   .projects-wrapper {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

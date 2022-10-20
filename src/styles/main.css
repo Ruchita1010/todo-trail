@@ -12,8 +12,9 @@ body {
 :root {
   --primary: hsl(210, 8%, 95%);
   --secondary: hsl(24, 10%, 10%);
-  --accent: hsla(24, 10%, 10%, 0.221);
+  --accent: hsl(39, 86%, 64%);
   --transparent-primary: hsla(210, 8%, 95%, 0.9);
+  --transparent-secondary: hsl(24, 10%, 10%, 0.221);
   --elem-shadow: hsl(0, 0%, 76%);
 }
 
