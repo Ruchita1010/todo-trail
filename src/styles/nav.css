@@ -2,6 +2,7 @@ nav {
   position: sticky;
   background-color: var(--primary);
   box-shadow: 3px 0px 20px var(--elem-shadow);
+  z-index: 2;
 }
 
 .logo {
