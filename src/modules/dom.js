@@ -31,9 +31,10 @@ const appendToWrapperDiv = (wrapperClass, newProject) => {
   wrapperDiv.appendChild(newProject);
 };
 
-let selectedProjectBg = '';
+let selectedProjectBgImg = '';
 const setProjectBg = (e) => {
-  selectedProjectBg = e.target.src;
+  const imgPath = e.target.src;
+  selectedProjectBgImg = imgPath.split('/').pop();
 };
 
 // Creating elements ---
@@ -71,7 +72,7 @@ const createProject = ([projectTitle]) => {
       delete
     </span>
   </button>
-  <img src="${selectedProjectBg}" alt="" />
+  <img src="../src/assets/${selectedProjectBgImg}" alt="" />
   <div class="project-details">
     <h3 class="project-title">${projectTitle}</h3>
     <p class="high-priority-stats">High priority tasks: 3</p>
