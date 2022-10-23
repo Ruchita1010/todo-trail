@@ -1,3 +1,8 @@
+import {
+  saveTodoToLocalStorage,
+  saveProjectToLocalStorage,
+} from './localStorage';
+
 // Utils ---
 const getSimilarClassElements = (elemClass) => {
   const elemArray = document.querySelectorAll(`.${elemClass}`);
@@ -84,6 +89,7 @@ const createProject = ([projectTitle]) => {
 // Adding elements ---
 const addTodo = () => {
   const userInputs = getUserInputs('todo-modal');
+  saveTodoToLocalStorage(userInputs);
   const newTodo = createTodo(userInputs);
   appendToWrapperDiv('todos', newTodo);
 };
@@ -96,6 +102,7 @@ const addProjectOption = ([projectTitle]) => {
 
 const addProject = () => {
   const userInputs = getUserInputs('project-modal');
+  saveProjectToLocalStorage(userInputs, selectedProjectBgImg);
   const newProject = createProject(userInputs);
   appendToWrapperDiv('projects', newProject);
   // Adds to the project-options (dropdown)
