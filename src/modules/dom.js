@@ -68,7 +68,7 @@ const createProjectOption = (projectTitle) => {
   return projectOption;
 };
 
-const createProject = ([projectTitle]) => {
+const createProject = (projectTitle, projectBg = selectedProjectBgImg) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
   newProject.innerHTML = `
@@ -77,7 +77,7 @@ const createProject = ([projectTitle]) => {
       delete
     </span>
   </button>
-  <img src="../src/assets/${selectedProjectBgImg}" alt="" />
+  <img src="../src/assets/${projectBg}" alt="" />
   <div class="project-details">
     <h3 class="project-title">${projectTitle}</h3>
     <p class="high-priority-stats">High priority tasks: 3</p>
@@ -102,8 +102,9 @@ const addProjectOption = ([projectTitle]) => {
 
 const addProject = () => {
   const userInputs = getUserInputs('project-modal');
-  saveProjectToLocalStorage(userInputs, selectedProjectBgImg);
-  const newProject = createProject(userInputs);
+  const [projectTitle] = userInputs;
+  saveProjectToLocalStorage(projectTitle, selectedProjectBgImg);
+  const newProject = createProject(projectTitle);
   appendToWrapperDiv('projects', newProject);
   // Adds to the project-options (dropdown)
   addProjectOption(userInputs);
