@@ -31,9 +31,19 @@ const getUserInputs = (parentModalElem) => {
   return [...userInputDivs].map((userInput) => userInput.children[1].value);
 };
 
-const appendToWrapperDiv = (wrapperClass, newProject) => {
-  const wrapperDiv = document.querySelector(`.${wrapperClass}-wrapper`);
-  wrapperDiv.appendChild(newProject);
+const updateMain = (wrapper) => {
+  const main = document.querySelector('main');
+  main.innerText = '';
+  main.appendChild(wrapper);
+};
+
+const appendToWrapper = (wrapperClass, element) => {
+  const wrapper = document.querySelector(`.${wrapperClass}-wrapper`);
+  /* elems gets add only if their wrapper exists thus, 
+  elimating the need to keep toggling display. Also, prevents cluttering of 'main' */
+  if (wrapper) {
+    wrapper.appendChild(element);
+  }
 };
 
 let selectedProjectBgImg = '';
@@ -43,6 +53,12 @@ const setProjectBg = (e) => {
 };
 
 // Creating elements ---
+const createWrapper = (wrapperClass) => {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add(`${wrapperClass}-wrapper`);
+  return wrapper;
+};
+
 const createTodo = ([title, description, date, , priority]) => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
@@ -91,7 +107,7 @@ const addTodo = () => {
   const userInputs = getUserInputs('todo-modal');
   saveTodoToLocalStorage(userInputs);
   const newTodo = createTodo(userInputs);
-  appendToWrapperDiv('todos', newTodo);
+  appendToWrapper('todos', newTodo);
 };
 
 const addProjectOption = ([projectTitle]) => {
@@ -105,7 +121,7 @@ const addProject = () => {
   const [projectTitle] = userInputs;
   saveProjectToLocalStorage(projectTitle, selectedProjectBgImg);
   const newProject = createProject(projectTitle);
-  appendToWrapperDiv('projects', newProject);
+  appendToWrapper('projects', newProject);
   // Adds to the project-options (dropdown)
   addProjectOption(userInputs);
 };
