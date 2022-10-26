@@ -25,10 +25,8 @@ const closeModal = (e) => {
 };
 
 const getUserInputs = (parentModalElem) => {
-  const userInputDivs = getSimilarClassElements(
-    `${parentModalElem} .user-input`
-  );
-  return [...userInputDivs].map((userInput) => userInput.children[1].value);
+  const userInputs = getSimilarClassElements(`${parentModalElem} .user-input`);
+  return [...userInputs].map((userInput) => userInput.children[1].value);
 };
 
 const updateMain = (wrapper) => {
