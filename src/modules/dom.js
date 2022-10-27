@@ -1,3 +1,4 @@
+import { getUserCreatedProjects } from './dataModifiers';
 import {
   saveTodoToLocalStorage,
   saveProjectToLocalStorage,
@@ -188,4 +189,14 @@ const loadCreateOptions = () => {
   listenForCreateOptionClick();
 };
 
-export { getSimilarClassElements, loadCreateOptions };
+const loadProjects = () => {
+  const wrapper = createWrapper('projects');
+  const projects = getUserCreatedProjects();
+  projects.forEach(({ projectTitle, selectedProjectBg }) => {
+    const project = createProject(projectTitle, selectedProjectBg);
+    wrapper.appendChild(project);
+  });
+  updateMain(wrapper);
+};
+
+export { getSimilarClassElements, loadCreateOptions, loadProjects };

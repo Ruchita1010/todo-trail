@@ -1,4 +1,4 @@
-import { loadCreateOptions } from './dom';
+import { loadCreateOptions, loadProjects } from './dom';
 
 const switchTab = (e) => {
   const currentTab = e.target.classList[1];
@@ -13,8 +13,10 @@ const switchTab = (e) => {
     }
     case 'week':
       break;
-    case 'projects':
+    case 'projects': {
+      loadProjects();
       break;
+    }
   }
 };
 

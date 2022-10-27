@@ -32,4 +32,14 @@ const saveProjectToLocalStorage = ([projectTitle], selectedProjectBg) => {
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
-export { initLocalStorage, saveTodoToLocalStorage, saveProjectToLocalStorage };
+const retrieveStoredData = () => {
+  const storedData = JSON.parse(localStorage.getItem('projects'));
+  return storedData;
+};
+
+export {
+  initLocalStorage,
+  saveTodoToLocalStorage,
+  saveProjectToLocalStorage,
+  retrieveStoredData,
+};
