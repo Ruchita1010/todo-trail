@@ -21,7 +21,7 @@ const saveTodoToLocalStorage = ([
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
-const saveProjectToLocalStorage = ([projectTitle], selectedProjectBg) => {
+const saveProjectToLocalStorage = (projectTitle, selectedProjectBg) => {
   const project = {
     projectTitle,
     selectedProjectBg,
