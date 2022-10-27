@@ -7,7 +7,7 @@ const switchTab = (e) => {
       break;
     case 'today':
       break;
-    case 'create-btn': {
+    case 'create': {
       loadCreateOptions();
       break;
     }
