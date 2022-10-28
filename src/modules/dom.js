@@ -58,7 +58,7 @@ const createWrapper = (wrapperClass) => {
   return wrapper;
 };
 
-const createTodo = ([title, description, date, , priority]) => {
+const createTodo = (title, description, date, priority) => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
   newTodo.innerHTML = `
@@ -104,8 +104,9 @@ const createProject = (projectTitle, projectBg = selectedProjectBgImg) => {
 // Adding elements ---
 const addTodo = () => {
   const userInputs = getUserInputs('todo-modal');
-  saveTodoToLocalStorage(userInputs);
-  const newTodo = createTodo(userInputs);
+  const [title, description, dueDate, projectTitle, priority] = userInputs;
+  saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
+  const newTodo = createTodo(title, description, dueDate, priority);
   appendToWrapper('todos', newTodo);
 };
 
