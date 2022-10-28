@@ -1,4 +1,5 @@
-import { getUserCreatedProjects } from './dataModifiers';
+import { isThisWeek, isToday, parseISO } from 'date-fns';
+import { getUserCreatedProjects, getWeekProjects } from './dataModifiers';
 import {
   saveTodoToLocalStorage,
   saveProjectToLocalStorage,
@@ -36,6 +37,15 @@ const updateMain = (wrapper) => {
   main.appendChild(wrapper);
 };
 
+/* returns appropriate wrappper class for the new todo */
+const getWrapper = (projectTitle, dueDate) => {
+  return isToday(parseISO(dueDate))
+    ? 'today'
+    : isThisWeek(parseISO(dueDate))
+    ? 'week'
+    : projectTitle;
+};
+
 const appendToWrapper = (wrapperClass, element) => {
   const wrapper = document.querySelector(`.${wrapperClass}-wrapper`);
   /* elems gets add only if their wrapper exists thus, 
@@ -54,7 +64,7 @@ const setProjectBg = (e) => {
 // Creating elements ---
 const createWrapper = (wrapperClass) => {
   const wrapper = document.createElement('div');
-  wrapper.classList.add(`${wrapperClass}-wrapper`);
+  wrapper.classList.add(`${wrapperClass}-wrapper`, 'todos-wrapper');
   return wrapper;
 };
 
@@ -107,7 +117,9 @@ const addTodo = () => {
   const [title, description, dueDate, projectTitle, priority] = userInputs;
   saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
   const newTodo = createTodo(title, description, dueDate, priority);
-  appendToWrapper('todos', newTodo);
+  // getting a wrapper as per the todo
+  const wrapperClass = getWrapper(projectTitle, dueDate);
+  appendToWrapper(wrapperClass, newTodo);
 };
 
 const addProjectOption = ([projectTitle]) => {
@@ -200,4 +212,15 @@ const loadProjects = () => {
   updateMain(wrapper);
 };
 
-export { getSimilarClassElements, loadCreateOptions, loadProjects };
+const loadWeek = () => {
+  const wrapper = createWrapper('week');
+  const weekTodos = getWeekProjects();
+  weekTodos.forEach((weekTodo) => {
+    const { todoTitle, description, dueDate, priority } = weekTodo;
+    const todo = createTodo(todoTitle, description, dueDate, priority);
+    wrapper.appendChild(todo);
+  });
+  updateMain(wrapper);
+};
+
+export { getSimilarClassElements, loadCreateOptions, loadProjects, loadWeek };
