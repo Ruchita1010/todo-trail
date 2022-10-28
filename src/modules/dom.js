@@ -1,5 +1,9 @@
 import { isThisWeek, isToday, parseISO } from 'date-fns';
-import { getUserCreatedProjects, getWeekProjects } from './dataModifiers';
+import {
+  getUserCreatedProjects,
+  getWeekProjects,
+  getTodayProjects,
+} from './dataModifiers';
 import {
   saveTodoToLocalStorage,
   saveProjectToLocalStorage,
@@ -223,4 +227,21 @@ const loadWeek = () => {
   updateMain(wrapper);
 };
 
-export { getSimilarClassElements, loadCreateOptions, loadProjects, loadWeek };
+const loadToday = () => {
+  const wrapper = createWrapper('today');
+  const todayTodos = getTodayProjects();
+  todayTodos.forEach((todayTodo) => {
+    const { todoTitle, description, dueDate, priority } = todayTodo;
+    const todo = createTodo(todoTitle, description, dueDate, priority);
+    wrapper.appendChild(todo);
+  });
+  updateMain(wrapper);
+};
+
+export {
+  getSimilarClassElements,
+  loadCreateOptions,
+  loadProjects,
+  loadWeek,
+  loadToday,
+};
