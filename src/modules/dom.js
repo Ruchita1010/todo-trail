@@ -1,8 +1,8 @@
-import { isThisWeek, isToday, parseISO } from 'date-fns';
 import {
   getUserCreatedProjects,
   getWeekProjects,
   getTodayProjects,
+  getDefaultProjectTodos,
 } from './dataModifiers';
 import {
   saveTodoToLocalStorage,
@@ -41,17 +41,17 @@ const updateMain = (wrapper) => {
   main.appendChild(wrapper);
 };
 
-/* returns appropriate wrappper class for the new todo */
-const getWrapper = (projectTitle, dueDate) => {
-  return isToday(parseISO(dueDate))
-    ? 'today'
-    : isThisWeek(parseISO(dueDate))
-    ? 'week'
-    : projectTitle;
+/* returns active wrappper class for the new todo */
+const getActiveWrapper = () => {
+  const activeWrapper = document.querySelector('main').firstElementChild;
+  if (activeWrapper) {
+    return activeWrapper.classList[0];
+  }
+  return null;
 };
 
 const appendToWrapper = (wrapperClass, element) => {
-  const wrapper = document.querySelector(`.${wrapperClass}-wrapper`);
+  const wrapper = document.querySelector(`.${wrapperClass}`);
   /* elems gets add only if their wrapper exists thus, 
   elimating the need to keep toggling display. Also, prevents cluttering of 'main' */
   if (wrapper) {
@@ -121,9 +121,10 @@ const addTodo = () => {
   const [title, description, dueDate, projectTitle, priority] = userInputs;
   saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
   const newTodo = createTodo(title, description, dueDate, priority);
-  // getting a wrapper as per the todo
-  const wrapperClass = getWrapper(projectTitle, dueDate);
-  appendToWrapper(wrapperClass, newTodo);
+  const wrapperClass = getActiveWrapper();
+  if (wrapperClass) {
+    appendToWrapper(wrapperClass, newTodo);
+  }
 };
 
 const addProjectOption = ([projectTitle]) => {
@@ -137,7 +138,7 @@ const addProject = () => {
   const [projectTitle] = userInputs;
   saveProjectToLocalStorage(projectTitle, selectedProjectBgImg);
   const newProject = createProject(projectTitle);
-  appendToWrapper('projects', newProject);
+  appendToWrapper('projects-wrapper', newProject);
   // Adds to the project-options (dropdown)
   addProjectOption(userInputs);
 };
@@ -206,6 +207,17 @@ const loadCreateOptions = () => {
   listenForCreateOptionClick();
 };
 
+const loadDefaultProjectTodos = () => {
+  const wrapper = createWrapper('all');
+  const defaultProjectTodos = getDefaultProjectTodos();
+  defaultProjectTodos.forEach((defaultProjectTodo) => {
+    const { todoTitle, description, dueDate, priority } = defaultProjectTodo;
+    const todo = createTodo(todoTitle, description, dueDate, priority);
+    wrapper.appendChild(todo);
+  });
+  updateMain(wrapper);
+};
+
 const loadProjects = () => {
   const wrapper = createWrapper('projects');
   const projects = getUserCreatedProjects();
@@ -244,4 +256,5 @@ export {
   loadProjects,
   loadWeek,
   loadToday,
+  loadDefaultProjectTodos,
 };
