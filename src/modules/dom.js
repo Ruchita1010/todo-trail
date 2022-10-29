@@ -1,3 +1,4 @@
+import { isThisWeek, isToday, parseISO } from 'date-fns';
 import {
   getUserCreatedProjects,
   getWeekProjects,
@@ -41,13 +42,27 @@ const updateMain = (wrapper) => {
   main.appendChild(wrapper);
 };
 
-/* returns active wrappper class for the new todo */
-const getActiveWrapper = () => {
+/* returns active wrapper class */
+const getActiveWrapperClass = () => {
   const activeWrapper = document.querySelector('main').firstElementChild;
   if (activeWrapper) {
     return activeWrapper.classList[0];
   }
   return null;
+};
+
+/* an array of classes to which the todo can be added is created and if the active wrapper class
+is included in the array, then the todo can added to the active wrapper  */
+const checkTodo = (todoTitle, dueDate, activeWrapperClass) => {
+  let todoClasses = [];
+  if (isToday(parseISO(dueDate))) {
+    todoClasses.push('today-wrapper');
+  } else if (isThisWeek(parseISO(dueDate))) {
+    todoClasses.push('week-wrapper');
+  } else {
+    todoClasses.push(`${todoTitle}-wrapper`);
+  }
+  return todoClasses.includes(activeWrapperClass);
 };
 
 const appendToWrapper = (wrapperClass, element) => {
@@ -66,9 +81,9 @@ const setProjectBg = (e) => {
 };
 
 // Creating elements ---
-const createWrapper = (wrapperClass) => {
+const createWrapper = (classArr) => {
   const wrapper = document.createElement('div');
-  wrapper.classList.add(`${wrapperClass}-wrapper`, 'todos-wrapper');
+  wrapper.classList.add(...classArr);
   return wrapper;
 };
 
@@ -120,9 +135,13 @@ const addTodo = () => {
   const userInputs = getUserInputs('todo-modal');
   const [title, description, dueDate, projectTitle, priority] = userInputs;
   saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
+  /* instead of calling the required load functions again (resulting in reloading of the 
+  localStorage data), we can check the active tab(wrapper) and add the new element 
+  directly to the DOM after saving it to localStorage */
   const newTodo = createTodo(title, description, dueDate, priority);
-  const wrapperClass = getActiveWrapper();
-  if (wrapperClass) {
+  const wrapperClass = getActiveWrapperClass();
+  const todoContainsActive = checkTodo(title, dueDate, wrapperClass);
+  if (todoContainsActive) {
     appendToWrapper(wrapperClass, newTodo);
   }
 };
@@ -208,7 +227,7 @@ const loadCreateOptions = () => {
 };
 
 const loadDefaultProjectTodos = () => {
-  const wrapper = createWrapper('all');
+  const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
   const defaultProjectTodos = getDefaultProjectTodos();
   defaultProjectTodos.forEach((defaultProjectTodo) => {
     const { todoTitle, description, dueDate, priority } = defaultProjectTodo;
@@ -219,7 +238,7 @@ const loadDefaultProjectTodos = () => {
 };
 
 const loadProjects = () => {
-  const wrapper = createWrapper('projects');
+  const wrapper = createWrapper(['projects-wrapper']);
   const projects = getUserCreatedProjects();
   projects.forEach(({ projectTitle, selectedProjectBg }) => {
     const project = createProject(projectTitle, selectedProjectBg);
@@ -229,7 +248,7 @@ const loadProjects = () => {
 };
 
 const loadWeek = () => {
-  const wrapper = createWrapper('week');
+  const wrapper = createWrapper(['week-wrapper', 'todos-wrapper']);
   const weekTodos = getWeekProjects();
   weekTodos.forEach((weekTodo) => {
     const { todoTitle, description, dueDate, priority } = weekTodo;
@@ -240,7 +259,7 @@ const loadWeek = () => {
 };
 
 const loadToday = () => {
-  const wrapper = createWrapper('today');
+  const wrapper = createWrapper(['today-wrapper', 'todos-wrapper']);
   const todayTodos = getTodayProjects();
   todayTodos.forEach((todayTodo) => {
     const { todoTitle, description, dueDate, priority } = todayTodo;
