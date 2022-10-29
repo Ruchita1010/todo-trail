@@ -8,6 +8,8 @@ import {
 import {
   saveTodoToLocalStorage,
   saveProjectToLocalStorage,
+  deleteTodoFromLocalStorage,
+  deleteProjectFromLocalStorage,
 } from './localStorage';
 
 // Utils ---
@@ -53,15 +55,15 @@ const getActiveWrapperClass = () => {
 
 /* an array of classes to which the todo can be added is created and if the active wrapper class
 is included in the array, then the todo can added to the active wrapper  */
-const checkTodo = (todoTitle, dueDate, activeWrapperClass) => {
+const checkTodo = (projectTitle, dueDate, activeWrapperClass) => {
   let todoClasses = [];
   if (isToday(parseISO(dueDate))) {
     todoClasses.push('today-wrapper');
-  } else if (isThisWeek(parseISO(dueDate))) {
-    todoClasses.push('week-wrapper');
-  } else {
-    todoClasses.push(`${todoTitle}-wrapper`);
   }
+  if (isThisWeek(parseISO(dueDate))) {
+    todoClasses.push('week-wrapper');
+  }
+  todoClasses.push(`${projectTitle}-wrapper`);
   return todoClasses.includes(activeWrapperClass);
 };
 
@@ -95,7 +97,9 @@ const createTodo = (title, description, date, priority) => {
     <input type="checkbox" name="todo-checkbox" id="todo-checkbox" />
     <span class="due-date-label">${date}</span>
     <span class="priority-label">${priority}</span>
-    <span class="material-symbols-outlined icon delete-todo-btn"> delete </span>
+    <button class="delete-todo-btn">
+      <span class="material-symbols-outlined icon"> delete </span>
+    </button>
   </div>
   <div class="todo-content">
       <p class="todo-title">${title}</p>
@@ -140,7 +144,7 @@ const addTodo = () => {
   directly to the DOM after saving it to localStorage */
   const newTodo = createTodo(title, description, dueDate, priority);
   const wrapperClass = getActiveWrapperClass();
-  const todoContainsActive = checkTodo(title, dueDate, wrapperClass);
+  const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
   if (todoContainsActive) {
     appendToWrapper(wrapperClass, newTodo);
   }
@@ -172,12 +176,45 @@ const addUserInputData = (e) => {
   closeModal(e);
 };
 
+// Deleting elements
+const deleteProject = (e) => {
+  if (e.target.classList.contains('delete-project-btn')) {
+    const wrapper = document.querySelector('.projects-wrapper');
+    const project = e.target.parentNode;
+    const projectTitle = e.target.parentNode.children[2].children[0].innerText;
+    wrapper.removeChild(project);
+    deleteProjectFromLocalStorage(projectTitle);
+  }
+};
+
+const deleteTodo = (e) => {
+  if (e.target.classList.contains('delete-todo-btn')) {
+    const wrapper = document.querySelector('.todos-wrapper');
+    const todo = e.target.parentNode.parentNode;
+    const todoTitle =
+      e.target.parentNode.nextElementSibling.children[0].innerText;
+    wrapper.removeChild(todo);
+    deleteTodoFromLocalStorage(todoTitle);
+  }
+};
+
 // Listening for project background images ---
 const listenForProjectBgs = () => {
   const projectBgInput = document.querySelector('.project-bg-input');
   projectBgInput.addEventListener('click', (e) => {
     setProjectBg(e);
   });
+};
+
+// Listening for delete buttons in a wrapper element ---
+const listenForTodoDeleteBtn = () => {
+  const wrapper = document.querySelector('.todos-wrapper');
+  wrapper.addEventListener('click', deleteTodo);
+};
+
+const listenForProjectDeleteBtn = () => {
+  const wrapper = document.querySelector('.projects-wrapper');
+  wrapper.addEventListener('click', deleteProject);
 };
 
 // Listening for modal buttons ---
@@ -226,6 +263,7 @@ const loadCreateOptions = () => {
   listenForCreateOptionClick();
 };
 
+// Loading functions
 const loadDefaultProjectTodos = () => {
   const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
   const defaultProjectTodos = getDefaultProjectTodos();
@@ -235,6 +273,7 @@ const loadDefaultProjectTodos = () => {
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
+  listenForTodoDeleteBtn();
 };
 
 const loadProjects = () => {
@@ -245,6 +284,7 @@ const loadProjects = () => {
     wrapper.appendChild(project);
   });
   updateMain(wrapper);
+  listenForProjectDeleteBtn();
 };
 
 const loadWeek = () => {
@@ -256,6 +296,7 @@ const loadWeek = () => {
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
+  listenForTodoDeleteBtn();
 };
 
 const loadToday = () => {
@@ -267,6 +308,7 @@ const loadToday = () => {
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
+  listenForTodoDeleteBtn();
 };
 
 export {

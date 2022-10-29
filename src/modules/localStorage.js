@@ -32,6 +32,28 @@ const saveProjectToLocalStorage = (projectTitle, selectedProjectBg) => {
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
+const deleteTodoFromLocalStorage = (todoTitle) => {
+  const storedProjects = JSON.parse(localStorage.getItem('projects'));
+  storedProjects.forEach((storedProject) => {
+    const todos = storedProject.todos;
+    todos.forEach((todo) => {
+      if (todoTitle === todo.todoTitle) {
+        const index = todos.indexOf(todoTitle);
+        todos.splice(index);
+      }
+    });
+  });
+  localStorage.setItem('projects', JSON.stringify(storedProjects));
+};
+
+const deleteProjectFromLocalStorage = (projectTitle) => {
+  const storedProjects = JSON.parse(localStorage.getItem('projects'));
+  const filteredProjects = storedProjects.filter(
+    (storedProject) => storedProject.projectTitle !== projectTitle
+  );
+  localStorage.setItem('projects', JSON.stringify(filteredProjects));
+};
+
 const retrieveStoredData = () => {
   const storedData = JSON.parse(localStorage.getItem('projects'));
   return storedData;
@@ -41,5 +63,7 @@ export {
   initLocalStorage,
   saveTodoToLocalStorage,
   saveProjectToLocalStorage,
+  deleteTodoFromLocalStorage,
+  deleteProjectFromLocalStorage,
   retrieveStoredData,
 };
