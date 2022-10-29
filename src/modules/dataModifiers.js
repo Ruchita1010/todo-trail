@@ -11,7 +11,7 @@ const getUserCreatedProjects = () => {
 const getDefaultProjectTodos = () => {
   const storedProjects = retrieveStoredData();
   return storedProjects
-    .filter((storedProject) => storedProject.projectTitle === 'All')
+    .filter((storedProject) => storedProject.projectTitle === 'all')
     .map((storedProject) => {
       return storedProject.todos.map((todo) => todo);
     })

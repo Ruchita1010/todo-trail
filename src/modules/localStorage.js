@@ -1,6 +1,6 @@
 const initLocalStorage = () => {
   // default project: All
-  const projects = [{ projectTitle: 'All', todos: [] }];
+  const projects = [{ projectTitle: 'all', todos: [] }];
   localStorage.setItem('projects', JSON.stringify(projects));
 };
 
