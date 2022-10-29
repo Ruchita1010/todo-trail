@@ -146,7 +146,7 @@ const addTodo = () => {
   }
 };
 
-const addProjectOption = ([projectTitle]) => {
+const addProjectOption = (projectTitle) => {
   const projectOptions = document.querySelector('#project-options');
   const projectOption = createProjectOption(projectTitle);
   projectOptions.appendChild(projectOption);
@@ -159,7 +159,7 @@ const addProject = () => {
   const newProject = createProject(projectTitle);
   appendToWrapper('projects-wrapper', newProject);
   // Adds to the project-options (dropdown)
-  addProjectOption(userInputs);
+  addProjectOption(projectTitle);
 };
 
 const addUserInputData = (e) => {
