@@ -164,6 +164,7 @@ const addProject = () => {
   saveProjectToLocalStorage(projectTitle, selectedProjectBgImg);
   const newProject = createProject(projectTitle);
   appendToWrapper('projects-wrapper', newProject);
+  listenForProjectDeleteBtn();
   // Adds to the project-options (dropdown)
   addProjectOption(projectTitle);
 };
