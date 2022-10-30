@@ -4,6 +4,7 @@ import {
   getWeekProjects,
   getTodayProjects,
   getDefaultProjectTodos,
+  getProjectOptions,
 } from './dataModifiers';
 import {
   saveTodoToLocalStorage,
@@ -311,6 +312,13 @@ const loadToday = () => {
   listenForTodoDeleteBtn();
 };
 
+const loadProjectOptionsFromLocalStorage = () => {
+  const storedProjectsTitles = getProjectOptions();
+  storedProjectsTitles.forEach((storedProjectTitle) => {
+    addProjectOption(storedProjectTitle);
+  });
+};
+
 export {
   getSimilarClassElements,
   loadCreateOptions,
@@ -318,4 +326,5 @@ export {
   loadWeek,
   loadToday,
   loadDefaultProjectTodos,
+  loadProjectOptionsFromLocalStorage,
 };

@@ -4,13 +4,17 @@ import './styles/modal.css';
 import './styles/project.css';
 import './styles/todo.css';
 import switchTab from './modules/switchTab';
-import { getSimilarClassElements } from './modules/dom';
 import { initLocalStorage } from './modules/localStorage';
-import { loadDefaultProjectTodos } from './modules/dom';
+import {
+  getSimilarClassElements,
+  loadDefaultProjectTodos,
+  loadProjectOptionsFromLocalStorage,
+} from './modules/dom';
 
 const pageLoad = () => {
   if (localStorage.projects) {
     loadDefaultProjectTodos();
+    loadProjectOptionsFromLocalStorage();
     return;
   }
   initLocalStorage();

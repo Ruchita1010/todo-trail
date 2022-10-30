@@ -38,9 +38,15 @@ const getWeekProjects = () => {
     .filter((todo) => isThisWeek(parseISO(todo.dueDate)));
 };
 
+const getProjectOptions = () => {
+  const storedProjects = getUserCreatedProjects();
+  return storedProjects.map((storedProject) => storedProject.projectTitle);
+};
+
 export {
   getUserCreatedProjects,
   getDefaultProjectTodos,
   getTodayProjects,
   getWeekProjects,
+  getProjectOptions,
 };
