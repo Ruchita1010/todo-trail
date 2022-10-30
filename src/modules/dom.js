@@ -179,6 +179,14 @@ const addUserInputData = (e) => {
 };
 
 // Deleting elements
+const deleteProjectOption = (projectTitle) => {
+  const projectOptions = document.querySelector('#project-options');
+  const projectOptionElement = projectOptions.querySelector(
+    `option[value=${projectTitle}]`
+  );
+  projectOptions.removeChild(projectOptionElement);
+};
+
 const deleteProject = (e) => {
   e.stopPropagation();
   const wrapper = document.querySelector('.projects-wrapper');
@@ -186,6 +194,7 @@ const deleteProject = (e) => {
   const projectTitle = e.target.parentNode.children[2].children[0].innerText;
   wrapper.removeChild(project);
   deleteProjectFromLocalStorage(projectTitle);
+  deleteProjectOption(projectTitle);
 };
 
 const deleteTodo = (e) => {
