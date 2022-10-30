@@ -43,10 +43,19 @@ const getProjectOptions = () => {
   return storedProjects.map((storedProject) => storedProject.projectTitle);
 };
 
+const getProjectTodos = (projectTitle) => {
+  const storedProjects = getUserCreatedProjects();
+  // finds the project object and returns it's todos array
+  return storedProjects.find(
+    (storedProject) => storedProject.projectTitle === projectTitle
+  ).todos;
+};
+
 export {
   getUserCreatedProjects,
   getDefaultProjectTodos,
   getTodayProjects,
   getWeekProjects,
   getProjectOptions,
+  getProjectTodos,
 };

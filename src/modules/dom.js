@@ -5,6 +5,7 @@ import {
   getTodayProjects,
   getDefaultProjectTodos,
   getProjectOptions,
+  getProjectTodos,
 } from './dataModifiers';
 import {
   saveTodoToLocalStorage,
@@ -179,13 +180,12 @@ const addUserInputData = (e) => {
 
 // Deleting elements
 const deleteProject = (e) => {
-  if (e.target.classList.contains('delete-project-btn')) {
-    const wrapper = document.querySelector('.projects-wrapper');
-    const project = e.target.parentNode;
-    const projectTitle = e.target.parentNode.children[2].children[0].innerText;
-    wrapper.removeChild(project);
-    deleteProjectFromLocalStorage(projectTitle);
-  }
+  e.stopPropagation();
+  const wrapper = document.querySelector('.projects-wrapper');
+  const project = e.target.parentNode;
+  const projectTitle = e.target.parentNode.children[2].children[0].innerText;
+  wrapper.removeChild(project);
+  deleteProjectFromLocalStorage(projectTitle);
 };
 
 const deleteTodo = (e) => {
@@ -214,8 +214,10 @@ const listenForTodoDeleteBtn = () => {
 };
 
 const listenForProjectDeleteBtn = () => {
-  const wrapper = document.querySelector('.projects-wrapper');
-  wrapper.addEventListener('click', deleteProject);
+  const deleteBtns = getSimilarClassElements('delete-project-btn');
+  deleteBtns.forEach((deleteBtn) => {
+    deleteBtn.addEventListener('click', deleteProject);
+  });
 };
 
 // Listening for modal buttons ---
@@ -264,6 +266,28 @@ const loadCreateOptions = () => {
   listenForCreateOptionClick();
 };
 
+// For projects in the projects-wrapper ---
+const displayProjectTodos = (e) => {
+  console.log('jdfk');
+  const projectTitle = e.currentTarget.children[2].children[0].innerText;
+  const projectTodos = getProjectTodos(projectTitle);
+  const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
+  projectTodos.forEach((projectTodo) => {
+    const { todoTitle, description, dueDate, priority } = projectTodo;
+    const todo = createTodo(todoTitle, description, dueDate, priority);
+    wrapper.appendChild(todo);
+  });
+  updateMain(wrapper);
+  listenForTodoDeleteBtn();
+};
+
+const listenForProjects = () => {
+  const projects = getSimilarClassElements('project');
+  projects.forEach((project) => {
+    project.addEventListener('click', displayProjectTodos);
+  });
+};
+
 // Loading functions
 const loadDefaultProjectTodos = () => {
   const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
@@ -285,6 +309,7 @@ const loadProjects = () => {
     wrapper.appendChild(project);
   });
   updateMain(wrapper);
+  listenForProjects();
   listenForProjectDeleteBtn();
 };
 
