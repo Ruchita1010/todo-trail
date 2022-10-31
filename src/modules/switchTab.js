@@ -1,10 +1,10 @@
 import {
   loadCreateOptions,
-  loadProjects,
-  loadWeek,
-  loadToday,
   loadDefaultProjectTodos,
-} from './dom';
+  loadProjects,
+  loadToday,
+  loadWeek,
+} from './loaders';
 
 const switchTab = (e) => {
   const currentTab = e.target.classList[1];

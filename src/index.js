@@ -5,11 +5,11 @@ import './styles/project.css';
 import './styles/todo.css';
 import switchTab from './modules/switchTab';
 import { initLocalStorage } from './modules/localStorage';
+import { getSimilarClassElements } from './modules/utils';
 import {
-  getSimilarClassElements,
   loadDefaultProjectTodos,
   loadProjectOptionsFromLocalStorage,
-} from './modules/dom';
+} from './modules/loaders';
 
 const pageLoad = () => {
   if (localStorage.projects) {
