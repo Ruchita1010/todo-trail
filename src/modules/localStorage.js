@@ -90,6 +90,11 @@ const retrieveStoredData = () => {
   return storedData;
 };
 
+const checkLocalStorage = () => {
+  const storedData = JSON.parse(localStorage.getItem('projects'));
+  return storedData[0].todos.length === 0 && storedData.length < 2;
+};
+
 export {
   initLocalStorage,
   saveTodoToLocalStorage,
@@ -99,4 +104,5 @@ export {
   retrieveStoredData,
   updateCountInLocalStorage,
   updateCheckedAttrInLocalStorage,
+  checkLocalStorage,
 };
