@@ -12,7 +12,7 @@
   height: 14rem;
   position: relative;
   background-color: var(--transparent-secondary);
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .project:hover {
@@ -26,15 +26,16 @@
   right: 0;
   display: grid;
   place-items: center;
-  background-color: var(--transparent-primary);
   box-shadow: 0px 0px 8px var(--elem-shadow);
   border: none;
-  border-radius: 0 5px 0 0;
+  border-radius: 0 6px 0 0;
 }
 
 .delete-project-btn span {
   font-size: 3vmax;
   color: var(--secondary);
+  border-radius: 0 6px 0 0;
+  background-color: var(--transparent-secondary);
 }
 
 .delete-project-btn:hover {
@@ -46,7 +47,7 @@
   max-width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .project-details {
@@ -59,11 +60,16 @@
   flex-direction: column;
   justify-content: flex-end;
   color: var(--primary);
-  background-image: linear-gradient(
-    hsla(24, 90%, 48%, 0) 0%,
-    hsl(24, 10%, 10%) 85%
-  );
-  border-radius: 0 0 10px 10px;
+  background: linear-gradient(to bottom, transparent 10%, var(--secondary) 80%)
+    top;
+
+  border-radius: 0 0 6px 6px;
+  transition: all 0.4s ease;
+}
+
+.project-details:hover {
+  color: var(--secondary);
+  background: linear-gradient(to bottom, transparent 10%, var(--accent) 80%);
 }
 
 .project-title {
@@ -82,7 +88,7 @@
   }
 
   .high-priority-stats {
-    font-size: 1.2vmax;
+    font-size: 1.3vmax;
   }
 }
 
