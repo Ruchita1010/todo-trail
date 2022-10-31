@@ -4,22 +4,20 @@ import './styles/modal.css';
 import './styles/project.css';
 import './styles/todo.css';
 import switchTab from './modules/switchTab';
-import { initLocalStorage, checkLocalStorage } from './modules/localStorage';
+import { initLocalStorage } from './modules/localStorage';
 import {
-  displayBgForEmptyLocalStorage,
   getSimilarClassElements,
   loadDefaultProjectTodos,
   loadProjectOptionsFromLocalStorage,
 } from './modules/dom';
 
 const pageLoad = () => {
-  if (!checkLocalStorage()) {
+  if (localStorage.projects) {
     loadDefaultProjectTodos();
     loadProjectOptionsFromLocalStorage();
     return;
   }
   initLocalStorage();
-  displayBgForEmptyLocalStorage();
 };
 
 const listenForNavItemClick = () => {

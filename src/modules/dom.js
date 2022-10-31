@@ -15,7 +15,6 @@ import {
   updateCountInLocalStorage,
   updateCheckedAttrInLocalStorage,
 } from './localStorage';
-import EmptyStorageBgImg from '../assets/empty-storage-bg-img.png';
 
 // Utils ---
 const getSimilarClassElements = (elemClass) => {
@@ -79,23 +78,6 @@ const appendToWrapper = (wrapperClass, element) => {
   if (wrapper) {
     wrapper.appendChild(element);
   }
-};
-
-const displayBgForEmptyLocalStorage = () => {
-  const wrapper = createWrapper(['bg-img-wrapper']);
-  const imgElem = document.createElement('img');
-  imgElem.classList.add('empty-storage-bg-img');
-  imgElem.src = EmptyStorageBgImg;
-  const textElem = document.createElement('p');
-  textElem.innerText = 'Hmm..Nothing yet!!!';
-  const spanElem = document.createElement('span');
-  spanElem.classList.add('help-msg');
-  spanElem.innerText =
-    'Added a todo but still cannot see it? Try clicking tabs if its there :/';
-  wrapper.appendChild(textElem);
-  wrapper.appendChild(imgElem);
-  wrapper.appendChild(spanElem);
-  updateMain(wrapper);
 };
 
 let selectedProjectBgImg = '';
@@ -342,10 +324,6 @@ const loadCreateOptions = () => {
 const displayProjectTodos = (e) => {
   const projectTitle = e.currentTarget.children[2].children[0].innerText;
   const projectTodos = getProjectTodos(projectTitle);
-  if (projectTodos.length === 0) {
-    displayBgForEmptyLocalStorage();
-    return;
-  }
   const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
   projectTodos.forEach((projectTodo) => {
     const { todoTitle, description, dueDate, priority, checkedattr } =
@@ -375,10 +353,6 @@ const listenForProjects = () => {
 const loadDefaultProjectTodos = () => {
   const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
   const defaultProjectTodos = getDefaultProjectTodos();
-  if (defaultProjectTodos.length === 0) {
-    displayBgForEmptyLocalStorage();
-    return;
-  }
   defaultProjectTodos.forEach((defaultProjectTodo) => {
     const { todoTitle, description, dueDate, priority, checkedattr } =
       defaultProjectTodo;
@@ -399,10 +373,6 @@ const loadDefaultProjectTodos = () => {
 const loadProjects = () => {
   const wrapper = createWrapper(['projects-wrapper']);
   const projects = getUserCreatedProjects();
-  if (projects.length === 0) {
-    displayBgForEmptyLocalStorage();
-    return;
-  }
   projects.forEach(
     ({ projectTitle, highPriorityTasksCount, selectedProjectBg }) => {
       const project = createProject(
@@ -421,11 +391,6 @@ const loadProjects = () => {
 const loadWeek = () => {
   const wrapper = createWrapper(['week-wrapper', 'todos-wrapper']);
   const weekTodos = getWeekProjects();
-  if (weekTodos.length === 0) {
-    displayBgForEmptyLocalStorage();
-    return;
-  }
-
   weekTodos.forEach((weekTodo) => {
     const { todoTitle, description, dueDate, priority, checkedattr } = weekTodo;
     const todo = createTodo(
@@ -445,10 +410,6 @@ const loadWeek = () => {
 const loadToday = () => {
   const wrapper = createWrapper(['today-wrapper', 'todos-wrapper']);
   const todayTodos = getTodayProjects();
-  if (todayTodos.length === 0) {
-    displayBgForEmptyLocalStorage();
-    return;
-  }
   todayTodos.forEach((todayTodo) => {
     const { todoTitle, description, dueDate, priority, checkedattr } =
       todayTodo;
@@ -481,5 +442,4 @@ export {
   loadToday,
   loadDefaultProjectTodos,
   loadProjectOptionsFromLocalStorage,
-  displayBgForEmptyLocalStorage,
 };
