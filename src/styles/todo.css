@@ -28,22 +28,15 @@
   font-size: 1.8vmax;
   /* to stop the date from wrapping */
   white-space: nowrap;
+  /* so that e.target only results to the todo elem */
+  pointer-events: none;
 }
 
 input[type='checkbox'] {
   width: 2vmax;
   height: 2vmax;
-  background: var(--transparent-secondary);
-  appearance: none;
-  -webkit-appearance: none;
   accent-color: var(--accent);
-  transition: box-shadow 0.3s;
-  border-radius: 2px;
-  cursor: pointer;
-}
-
-input:checked {
-  box-shadow: inset 0 0 0 20px var(--accent);
+  border-radius: 4px;
 }
 
 .priority-label {
@@ -56,6 +49,8 @@ input:checked {
   flex-direction: column;
   padding: 0 2vmax 1vmax 2vmax;
   font-size: 1.5vmax;
+  /* so that e.target only results to the todo elem */
+  pointer-events: none;
 }
 
 .todo-title {
@@ -70,6 +65,8 @@ input:checked {
   font-size: 2.2vmax;
   background-color: var(--transparent-secondary);
   border-radius: 2px;
+  /* the events on its parent are disables, so we need to allow events for this explicitly */
+  pointer-events: all;
 }
 
 .delete-todo-btn:hover {

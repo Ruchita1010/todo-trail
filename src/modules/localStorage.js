@@ -9,9 +9,10 @@ const saveTodoToLocalStorage = (
   description,
   dueDate,
   inputtedProjectTitle,
-  priority
+  priority,
+  checkedattr = ''
 ) => {
-  const todo = { todoTitle, description, dueDate, priority };
+  const todo = { todoTitle, description, dueDate, priority, checkedattr };
   const storedProjects = JSON.parse(localStorage.getItem('projects'));
   storedProjects.forEach((storedProject) => {
     if (storedProject.projectTitle === inputtedProjectTitle) {
@@ -71,6 +72,19 @@ const updateCountInLocalStorage = (projectTitle, operation) => {
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
+const updateCheckedAttrInLocalStorage = (todoTitle, checkedattr) => {
+  const storedProjects = JSON.parse(localStorage.getItem('projects'));
+  storedProjects.forEach((storedProject) => {
+    const todos = storedProject.todos;
+    todos.forEach((todo) => {
+      if (todoTitle === todo.todoTitle) {
+        todo.checkedattr = checkedattr;
+      }
+    });
+  });
+  localStorage.setItem('projects', JSON.stringify(storedProjects));
+};
+
 const retrieveStoredData = () => {
   const storedData = JSON.parse(localStorage.getItem('projects'));
   return storedData;
@@ -84,4 +98,5 @@ export {
   deleteProjectFromLocalStorage,
   retrieveStoredData,
   updateCountInLocalStorage,
+  updateCheckedAttrInLocalStorage,
 };

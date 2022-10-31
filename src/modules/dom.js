@@ -13,6 +13,7 @@ import {
   deleteTodoFromLocalStorage,
   deleteProjectFromLocalStorage,
   updateCountInLocalStorage,
+  updateCheckedAttrInLocalStorage,
 } from './localStorage';
 
 // Utils ---
@@ -100,12 +101,12 @@ const createWrapper = (classArr) => {
   return wrapper;
 };
 
-const createTodo = (title, description, date, priority) => {
+const createTodo = (title, description, date, priority, checkedattr = '') => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
   newTodo.innerHTML = `
   <div class="todo-header">
-    <input type="checkbox" name="todo-checkbox" id="todo-checkbox" />
+    <input type="checkbox" name="todo-checkbox" id="todo-checkbox" ${checkedattr}/>
     <span class="due-date-label">${date}</span>
     <span class="priority-label">${priority}</span>
     <button class="delete-todo-btn">
@@ -162,6 +163,7 @@ const addTodo = () => {
   const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
   if (todoContainsActive) {
     appendToWrapper(wrapperClass, newTodo);
+    listenForTodos();
   }
   if (projectTitle !== 'all' && priority === 'High') {
     updateCountInLocalStorage(projectTitle, 'increment');
@@ -268,6 +270,25 @@ const listenForCloseBtnClick = () => {
   });
 };
 
+const markTodoCompleted = (e) => {
+  const checkbox = e.target.children[0].querySelector('input');
+  const todoTitle = e.target.children[1].firstElementChild.innerText;
+  if (checkbox.checked) {
+    checkbox.checked = false;
+    updateCheckedAttrInLocalStorage(todoTitle, '');
+    return;
+  }
+  checkbox.checked = true;
+  updateCheckedAttrInLocalStorage(todoTitle, 'checked');
+};
+
+const listenForTodos = () => {
+  const todos = getSimilarClassElements('todo');
+  todos.forEach((todo) => {
+    todo.addEventListener('click', markTodoCompleted);
+  });
+};
+
 // For create options ---
 const showCreateOption = (e) => {
   // hide create options
@@ -305,12 +326,20 @@ const displayProjectTodos = (e) => {
   const projectTodos = getProjectTodos(projectTitle);
   const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
   projectTodos.forEach((projectTodo) => {
-    const { todoTitle, description, dueDate, priority } = projectTodo;
-    const todo = createTodo(todoTitle, description, dueDate, priority);
+    const { todoTitle, description, dueDate, priority, checkedattr } =
+      projectTodo;
+    const todo = createTodo(
+      todoTitle,
+      description,
+      dueDate,
+      priority,
+      checkedattr
+    );
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
   listenForTodoDeleteBtn();
+  listenForTodos();
 };
 
 const listenForProjects = () => {
@@ -325,12 +354,20 @@ const loadDefaultProjectTodos = () => {
   const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
   const defaultProjectTodos = getDefaultProjectTodos();
   defaultProjectTodos.forEach((defaultProjectTodo) => {
-    const { todoTitle, description, dueDate, priority } = defaultProjectTodo;
-    const todo = createTodo(todoTitle, description, dueDate, priority);
+    const { todoTitle, description, dueDate, priority, checkedattr } =
+      defaultProjectTodo;
+    const todo = createTodo(
+      todoTitle,
+      description,
+      dueDate,
+      priority,
+      checkedattr
+    );
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
   listenForTodoDeleteBtn();
+  listenForTodos();
 };
 
 const loadProjects = () => {
@@ -355,24 +392,39 @@ const loadWeek = () => {
   const wrapper = createWrapper(['week-wrapper', 'todos-wrapper']);
   const weekTodos = getWeekProjects();
   weekTodos.forEach((weekTodo) => {
-    const { todoTitle, description, dueDate, priority } = weekTodo;
-    const todo = createTodo(todoTitle, description, dueDate, priority);
+    const { todoTitle, description, dueDate, priority, checkedattr } = weekTodo;
+    const todo = createTodo(
+      todoTitle,
+      description,
+      dueDate,
+      priority,
+      checkedattr
+    );
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
   listenForTodoDeleteBtn();
+  listenForTodos();
 };
 
 const loadToday = () => {
   const wrapper = createWrapper(['today-wrapper', 'todos-wrapper']);
   const todayTodos = getTodayProjects();
   todayTodos.forEach((todayTodo) => {
-    const { todoTitle, description, dueDate, priority } = todayTodo;
-    const todo = createTodo(todoTitle, description, dueDate, priority);
+    const { todoTitle, description, dueDate, priority, checkedattr } =
+      todayTodo;
+    const todo = createTodo(
+      todoTitle,
+      description,
+      dueDate,
+      priority,
+      checkedattr
+    );
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
   listenForTodoDeleteBtn();
+  listenForTodos();
 };
 
 const loadProjectOptionsFromLocalStorage = () => {
