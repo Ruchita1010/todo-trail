@@ -12,6 +12,7 @@ import {
   saveProjectToLocalStorage,
   deleteTodoFromLocalStorage,
   deleteProjectFromLocalStorage,
+  updateCountInLocalStorage,
 } from './localStorage';
 
 // Utils ---
@@ -84,6 +85,14 @@ const setProjectBg = (e) => {
   selectedProjectBgImg = imgPath.split('/').pop();
 };
 
+const updateCountInDOM = () => {
+  // Only if the projects tab is active
+  const activeWrapper = getActiveWrapperClass();
+  if (activeWrapper === 'projects-wrapper') {
+    loadProjects();
+  }
+};
+
 // Creating elements ---
 const createWrapper = (classArr) => {
   const wrapper = document.createElement('div');
@@ -118,7 +127,11 @@ const createProjectOption = (projectTitle) => {
   return projectOption;
 };
 
-const createProject = (projectTitle, projectBg = selectedProjectBgImg) => {
+const createProject = (
+  projectTitle,
+  highPriorityTasksCount,
+  projectBg = selectedProjectBgImg
+) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
   newProject.innerHTML = `
@@ -130,7 +143,7 @@ const createProject = (projectTitle, projectBg = selectedProjectBgImg) => {
   <img src="../src/assets/${projectBg}" alt="" />
   <div class="project-details">
     <h3 class="project-title">${projectTitle}</h3>
-    <p class="high-priority-stats">High priority tasks: 3</p>
+    <p class="high-priority-stats">High priority tasks: ${highPriorityTasksCount}</p>
   </div>
   `;
   return newProject;
@@ -150,6 +163,10 @@ const addTodo = () => {
   if (todoContainsActive) {
     appendToWrapper(wrapperClass, newTodo);
   }
+  if (projectTitle !== 'all' && priority === 'High') {
+    updateCountInLocalStorage(projectTitle, 'increment');
+    updateCountInDOM();
+  }
 };
 
 const addProjectOption = (projectTitle) => {
@@ -161,8 +178,8 @@ const addProjectOption = (projectTitle) => {
 const addProject = () => {
   const userInputs = getUserInputs('project-modal');
   const [projectTitle] = userInputs;
-  saveProjectToLocalStorage(projectTitle, selectedProjectBgImg);
-  const newProject = createProject(projectTitle);
+  saveProjectToLocalStorage(projectTitle, 0, selectedProjectBgImg);
+  const newProject = createProject(projectTitle, 0);
   appendToWrapper('projects-wrapper', newProject);
   listenForProjectDeleteBtn();
   // Adds to the project-options (dropdown)
@@ -206,6 +223,12 @@ const deleteTodo = (e) => {
       e.target.parentNode.nextElementSibling.children[0].innerText;
     wrapper.removeChild(todo);
     deleteTodoFromLocalStorage(todoTitle);
+    const projectTitle = e.currentTarget.classList[0].replace(/-wrapper/, '');
+    const priority = e.target.previousElementSibling.innerText;
+    if (projectTitle !== 'all' && priority === 'High') {
+      updateCountInLocalStorage(projectTitle, 'decrement');
+      updateCountInDOM();
+    }
   }
 };
 
@@ -278,7 +301,6 @@ const loadCreateOptions = () => {
 
 // For projects in the projects-wrapper ---
 const displayProjectTodos = (e) => {
-  console.log('jdfk');
   const projectTitle = e.currentTarget.children[2].children[0].innerText;
   const projectTodos = getProjectTodos(projectTitle);
   const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
@@ -314,10 +336,16 @@ const loadDefaultProjectTodos = () => {
 const loadProjects = () => {
   const wrapper = createWrapper(['projects-wrapper']);
   const projects = getUserCreatedProjects();
-  projects.forEach(({ projectTitle, selectedProjectBg }) => {
-    const project = createProject(projectTitle, selectedProjectBg);
-    wrapper.appendChild(project);
-  });
+  projects.forEach(
+    ({ projectTitle, highPriorityTasksCount, selectedProjectBg }) => {
+      const project = createProject(
+        projectTitle,
+        highPriorityTasksCount,
+        selectedProjectBg
+      );
+      wrapper.appendChild(project);
+    }
+  );
   updateMain(wrapper);
   listenForProjects();
   listenForProjectDeleteBtn();

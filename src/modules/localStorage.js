@@ -21,9 +21,14 @@ const saveTodoToLocalStorage = (
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
-const saveProjectToLocalStorage = (projectTitle, selectedProjectBg) => {
+const saveProjectToLocalStorage = (
+  projectTitle,
+  highPriorityTasksCount,
+  selectedProjectBg
+) => {
   const project = {
     projectTitle,
+    highPriorityTasksCount,
     selectedProjectBg,
     todos: [],
   };
@@ -54,6 +59,18 @@ const deleteProjectFromLocalStorage = (projectTitle) => {
   localStorage.setItem('projects', JSON.stringify(filteredProjects));
 };
 
+const updateCountInLocalStorage = (projectTitle, operation) => {
+  const storedProjects = JSON.parse(localStorage.getItem('projects'));
+  storedProjects.forEach((storedProject) => {
+    if (storedProject.projectTitle === projectTitle) {
+      operation === 'increment'
+        ? storedProject.highPriorityTasksCount++
+        : storedProject.highPriorityTasksCount--;
+    }
+  });
+  localStorage.setItem('projects', JSON.stringify(storedProjects));
+};
+
 const retrieveStoredData = () => {
   const storedData = JSON.parse(localStorage.getItem('projects'));
   return storedData;
@@ -66,4 +83,5 @@ export {
   deleteTodoFromLocalStorage,
   deleteProjectFromLocalStorage,
   retrieveStoredData,
+  updateCountInLocalStorage,
 };
