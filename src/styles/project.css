@@ -68,7 +68,7 @@
   pointer-events: none;
 }
 
-.project-details:hover {
+.project:hover > .project-details {
   color: var(--secondary);
   background: linear-gradient(to bottom, transparent 10%, var(--accent) 80%);
 }
