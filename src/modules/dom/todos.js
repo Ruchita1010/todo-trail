@@ -88,11 +88,12 @@ const listenForTodos = () => {
 
 // Adding elements ---
 const addTodo = (userInputs) => {
-  const [title, description, dueDate, projectTitle, priority] = userInputs;
+  const [todoTitle, description, dueDate, projectTitle, priority] = userInputs;
+  if (todoTitle === '') return;
   const todoId = uuidv4();
   saveTodoToLocalStorage(
     todoId,
-    title,
+    todoTitle,
     description,
     dueDate,
     projectTitle,
@@ -105,7 +106,13 @@ const addTodo = (userInputs) => {
   localStorage data), we can check the active tab(wrapper) and add the new element 
   directly to the DOM after saving it to localStorage */
   if (todoContainsActive) {
-    const newTodo = createTodo(todoId, title, description, dueDate, priority);
+    const newTodo = createTodo(
+      todoId,
+      todoTitle,
+      description,
+      dueDate,
+      priority
+    );
     appendToWrapper(wrapperClass, newTodo);
     listenForTodos();
   }

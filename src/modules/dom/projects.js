@@ -10,7 +10,7 @@ import {
 } from './utils';
 import { v4 as uuidv4 } from 'uuid';
 
-let selectedProjectBgImg = '';
+let selectedProjectBgImg = 'pattern-0.png';
 const setProjectBg = (e) => {
   const imgPath = e.target.src;
   selectedProjectBgImg = imgPath.split('/').pop();
@@ -96,6 +96,7 @@ const addProjectOption = (projectTitle) => {
 
 const addProject = (userInputs) => {
   const [projectTitle] = userInputs;
+  if (projectTitle === '') return;
   const projectId = uuidv4();
   saveProjectToLocalStorage(projectId, projectTitle, 0, selectedProjectBgImg);
   // Adds to the project-options (dropdown)

@@ -40,11 +40,6 @@ main {
   overflow-y: auto;
 }
 
-/* for background image when there's nothing to show */
-.empty-todo-bg-img {
-  width: 20vmax;
-}
-
 /* to put the nav below the main element (fixed bottom navbar)*/
 @media (max-width: 480px) {
   .container {
