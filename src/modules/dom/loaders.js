@@ -12,9 +12,10 @@ import { createWrapper, toggleDisplay, updateMain } from './utils';
 // helper function for loading todos
 const loadTodos = (wrapper, projectTodos) => {
   projectTodos.forEach((projectTodo) => {
-    const { todoTitle, description, dueDate, priority, checkedattr } =
+    const { todoId, todoTitle, description, dueDate, priority, checkedattr } =
       projectTodo;
     const todo = createTodo(
+      todoId,
       todoTitle,
       description,
       dueDate,
@@ -55,8 +56,14 @@ const loadProjects = () => {
   const wrapper = createWrapper(['projects-wrapper']);
   const projects = getUserCreatedProjects();
   projects.forEach(
-    ({ projectTitle, highPriorityTasksCount, selectedProjectBg }) => {
+    ({
+      projectId,
+      projectTitle,
+      highPriorityTasksCount,
+      selectedProjectBg,
+    }) => {
       const project = createProject(
+        projectId,
         projectTitle,
         highPriorityTasksCount,
         selectedProjectBg

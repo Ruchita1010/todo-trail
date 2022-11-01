@@ -6,10 +6,19 @@ import {
   updateCountInLocalStorage,
 } from '../localStorage';
 import { appendToWrapper, checkTodo, getActiveWrapperClass } from './utils';
+import { v4 as uuidv4 } from 'uuid';
 
-const createTodo = (title, description, date, priority, checkedattr = '') => {
+const createTodo = (
+  todoId,
+  title,
+  description,
+  date,
+  priority,
+  checkedattr = ''
+) => {
   const newTodo = document.createElement('div');
   newTodo.classList.add('todo');
+  newTodo.dataset.todoId = todoId;
   newTodo.innerHTML = `
   <div class="todo-header">
     <input type="checkbox" name="todo-checkbox" id="todo-checkbox" ${checkedattr}/>
@@ -38,10 +47,11 @@ const updateCountInDOM = () => {
 const deleteTodo = (e) => {
   const wrapper = document.querySelector('.todos-wrapper');
   const todo = e.target.parentNode.parentNode;
-  const todoTitle =
-    e.target.parentNode.nextElementSibling.children[0].innerText;
+  const todoId = todo.dataset.todoId;
+  // const todoTitle =
+  // e.target.parentNode.nextElementSibling.children[0].innerText;
   wrapper.removeChild(todo);
-  deleteTodoFromLocalStorage(todoTitle);
+  deleteTodoFromLocalStorage(todoId);
   const projectTitle = e.currentTarget.classList[0].replace(/-wrapper/, '');
   const priority = e.target.previousElementSibling.innerText;
   if (projectTitle !== 'all' && priority === 'High') {
@@ -52,14 +62,14 @@ const deleteTodo = (e) => {
 
 const markTodoCompleted = (e) => {
   const checkbox = e.target.children[0].querySelector('input');
-  const todoTitle = e.target.children[1].firstElementChild.innerText;
+  const todoId = e.target.dataset.todoId;
   if (checkbox.checked) {
     checkbox.checked = false;
-    updateCheckedAttrInLocalStorage(todoTitle, '');
+    updateCheckedAttrInLocalStorage(todoId, '');
     return;
   }
   checkbox.checked = true;
-  updateCheckedAttrInLocalStorage(todoTitle, 'checked');
+  updateCheckedAttrInLocalStorage(todoId, 'checked');
 };
 
 const checkClickedTarget = (e) => {
@@ -79,7 +89,15 @@ const listenForTodos = () => {
 // Adding elements ---
 const addTodo = (userInputs) => {
   const [title, description, dueDate, projectTitle, priority] = userInputs;
-  saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
+  const todoId = uuidv4();
+  saveTodoToLocalStorage(
+    todoId,
+    title,
+    description,
+    dueDate,
+    projectTitle,
+    priority
+  );
   // Adding to DOM if the tab is active
   const wrapperClass = getActiveWrapperClass();
   const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
@@ -87,7 +105,7 @@ const addTodo = (userInputs) => {
   localStorage data), we can check the active tab(wrapper) and add the new element 
   directly to the DOM after saving it to localStorage */
   if (todoContainsActive) {
-    const newTodo = createTodo(title, description, dueDate, priority);
+    const newTodo = createTodo(todoId, title, description, dueDate, priority);
     appendToWrapper(wrapperClass, newTodo);
     listenForTodos();
   }

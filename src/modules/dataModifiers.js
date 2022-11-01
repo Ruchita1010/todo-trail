@@ -44,17 +44,29 @@ const getProjectOptions = () => {
   return storedProjects.map((storedProject) => storedProject.projectTitle);
 };
 
-const getProjectTodos = (projectTitle) => {
+const getProjectTodos = (projectId) => {
   const storedProjects = getUserCreatedProjects();
   // finds the project object and returns it's todos array
   return storedProjects.find(
-    (storedProject) => storedProject.projectTitle === projectTitle
+    (storedProject) => storedProject.projectId === projectId
   ).todos;
+};
+
+const getProjectId = (todoId) => {
+  const storedProjects = getUserCreatedProjects();
+  storedProjects.forEach((storedProject) => {
+    storedProject.todos.forEach((todo) => {
+      if (todo.todoId === todoId) {
+        return storedProject.projectId;
+      }
+    });
+  });
 };
 
 export {
   getDefaultProjectTodos,
   getUserCreatedProjects,
+  getProjectId,
   getProjectOptions,
   getProjectTodos,
   getTodayTodos,

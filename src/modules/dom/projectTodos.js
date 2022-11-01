@@ -4,13 +4,15 @@ import { createWrapper, updateMain } from './utils';
 
 // For projects in the projects-wrapper ---
 const displayProjectTodos = (e) => {
+  const projectId = e.target.dataset.projectId;
   const projectTitle = e.target.children[2].children[0].innerText;
-  const projectTodos = getProjectTodos(projectTitle);
+  const projectTodos = getProjectTodos(projectId);
   const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
   projectTodos.forEach((projectTodo) => {
-    const { todoTitle, description, dueDate, priority, checkedattr } =
+    const { todoId, todoTitle, description, dueDate, priority, checkedattr } =
       projectTodo;
     const todo = createTodo(
+      todoId,
       todoTitle,
       description,
       dueDate,

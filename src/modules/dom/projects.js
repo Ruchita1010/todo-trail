@@ -8,6 +8,7 @@ import {
   getSimilarClassElements,
   appendToWrapper,
 } from './utils';
+import { v4 as uuidv4 } from 'uuid';
 
 let selectedProjectBgImg = '';
 const setProjectBg = (e) => {
@@ -23,12 +24,14 @@ const createProjectOption = (projectTitle) => {
 };
 
 const createProject = (
+  projectId,
   projectTitle,
   highPriorityTasksCount,
   projectBg = selectedProjectBgImg
 ) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
+  newProject.dataset.projectId = projectId;
   newProject.innerHTML = `
   <button class="delete-project-btn">
     <span class="material-symbols-outlined icon">
@@ -55,9 +58,10 @@ const deleteProjectOption = (projectTitle) => {
 const deleteProject = (e) => {
   const wrapper = document.querySelector('.projects-wrapper');
   const project = e.target.parentNode;
+  const projectId = project.dataset.projectId;
   const projectTitle = project.children[2].children[0].innerText;
   wrapper.removeChild(project);
-  deleteProjectFromLocalStorage(projectTitle);
+  deleteProjectFromLocalStorage(projectId);
   deleteProjectOption(projectTitle);
 };
 
@@ -92,13 +96,14 @@ const addProjectOption = (projectTitle) => {
 
 const addProject = (userInputs) => {
   const [projectTitle] = userInputs;
-  saveProjectToLocalStorage(projectTitle, 0, selectedProjectBgImg);
+  const projectId = uuidv4();
+  saveProjectToLocalStorage(projectId, projectTitle, 0, selectedProjectBgImg);
   // Adds to the project-options (dropdown)
   addProjectOption(projectTitle);
   // Adding to DOM if the tab is active
   const activeWrapper = getActiveWrapperClass();
   if (activeWrapper === 'projects-wrapper') {
-    const newProject = createProject(projectTitle, 0);
+    const newProject = createProject(projectId, projectTitle, 0);
     appendToWrapper('projects-wrapper', newProject);
     listenForProjects();
   }
