@@ -8,6 +8,7 @@ const getUserCreatedProjects = () => {
   return storedData.slice(1);
 };
 
+// default project: all
 const getDefaultProjectTodos = () => {
   const storedProjects = retrieveStoredData();
   return storedProjects
@@ -18,7 +19,7 @@ const getDefaultProjectTodos = () => {
     .flat();
 };
 
-const getTodayProjects = () => {
+const getTodayTodos = () => {
   const storedProjects = retrieveStoredData();
   return storedProjects
     .map((storedProject) => {
@@ -28,7 +29,7 @@ const getTodayProjects = () => {
     .filter((todo) => isToday(parseISO(todo.dueDate)));
 };
 
-const getWeekProjects = () => {
+const getWeekTodos = () => {
   const storedProjects = retrieveStoredData();
   return storedProjects
     .map((storedProject) => {
@@ -52,10 +53,10 @@ const getProjectTodos = (projectTitle) => {
 };
 
 export {
-  getUserCreatedProjects,
   getDefaultProjectTodos,
-  getTodayProjects,
-  getWeekProjects,
+  getUserCreatedProjects,
   getProjectOptions,
   getProjectTodos,
+  getTodayTodos,
+  getWeekTodos,
 };

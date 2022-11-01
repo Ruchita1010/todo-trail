@@ -1,19 +1,11 @@
-import { getProjectTodos } from './dataModifiers';
 import { loadProjects } from './loaders';
 import {
-  deleteTodoFromLocalStorage,
   saveTodoToLocalStorage,
+  deleteTodoFromLocalStorage,
   updateCheckedAttrInLocalStorage,
   updateCountInLocalStorage,
-} from './localStorage';
-import {
-  appendToWrapper,
-  checkTodo,
-  createWrapper,
-  getActiveWrapperClass,
-  getUserInputs,
-  updateMain,
-} from './utils';
+} from '../localStorage';
+import { appendToWrapper, checkTodo, getActiveWrapperClass } from './utils';
 
 const createTodo = (title, description, date, priority, checkedattr = '') => {
   const newTodo = document.createElement('div');
@@ -44,7 +36,6 @@ const updateCountInDOM = () => {
 };
 
 const deleteTodo = (e) => {
-  // if (e.target.classList.contains('delete-todo-btn')) {
   const wrapper = document.querySelector('.todos-wrapper');
   const todo = e.target.parentNode.parentNode;
   const todoTitle =
@@ -86,17 +77,17 @@ const listenForTodos = () => {
 };
 
 // Adding elements ---
-const addTodo = () => {
-  const userInputs = getUserInputs('todo-modal');
+const addTodo = (userInputs) => {
   const [title, description, dueDate, projectTitle, priority] = userInputs;
   saveTodoToLocalStorage(title, description, dueDate, projectTitle, priority);
+  // Adding to DOM if the tab is active
+  const wrapperClass = getActiveWrapperClass();
+  const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
   /* instead of calling the required load functions again (resulting in reloading of the 
   localStorage data), we can check the active tab(wrapper) and add the new element 
   directly to the DOM after saving it to localStorage */
-  const newTodo = createTodo(title, description, dueDate, priority);
-  const wrapperClass = getActiveWrapperClass();
-  const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
   if (todoContainsActive) {
+    const newTodo = createTodo(title, description, dueDate, priority);
     appendToWrapper(wrapperClass, newTodo);
     listenForTodos();
   }
@@ -106,25 +97,4 @@ const addTodo = () => {
   }
 };
 
-// For projects in the projects-wrapper ---
-const displayProjectTodos = (e) => {
-  const projectTitle = e.currentTarget.children[2].children[0].innerText;
-  const projectTodos = getProjectTodos(projectTitle);
-  const wrapper = createWrapper([`${projectTitle}-wrapper`, 'todos-wrapper']);
-  projectTodos.forEach((projectTodo) => {
-    const { todoTitle, description, dueDate, priority, checkedattr } =
-      projectTodo;
-    const todo = createTodo(
-      todoTitle,
-      description,
-      dueDate,
-      priority,
-      checkedattr
-    );
-    wrapper.appendChild(todo);
-  });
-  updateMain(wrapper);
-  listenForTodos();
-};
-
-export { addTodo, displayProjectTodos, listenForTodos, createTodo };
+export { addTodo, createTodo, listenForTodos };

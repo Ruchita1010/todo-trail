@@ -4,12 +4,25 @@ import './styles/modal.css';
 import './styles/project.css';
 import './styles/todo.css';
 import switchTab from './modules/switchTab';
+import { getProjectOptions } from './modules/dataModifiers';
+import { addProjectOption } from './modules/dom/projects';
+import { loadDefaultProjectTodos } from './modules/dom/loaders';
 import { initLocalStorage } from './modules/localStorage';
-import { getSimilarClassElements } from './modules/utils';
-import {
-  loadDefaultProjectTodos,
-  loadProjectOptionsFromLocalStorage,
-} from './modules/loaders';
+import { getSimilarClassElements } from './modules/dom/utils';
+
+const listenForNavItemClick = () => {
+  const navListItems = getSimilarClassElements('nav-list-item');
+  navListItems.forEach((navListItem) => {
+    navListItem.addEventListener('click', switchTab);
+  });
+};
+
+const loadProjectOptionsFromLocalStorage = () => {
+  const storedProjectsTitles = getProjectOptions();
+  storedProjectsTitles.forEach((storedProjectTitle) => {
+    addProjectOption(storedProjectTitle);
+  });
+};
 
 const pageLoad = () => {
   if (localStorage.projects) {
@@ -18,13 +31,6 @@ const pageLoad = () => {
     return;
   }
   initLocalStorage();
-};
-
-const listenForNavItemClick = () => {
-  const navListItems = getSimilarClassElements('nav-list-item');
-  navListItems.forEach((navListItem) => {
-    navListItem.addEventListener('click', switchTab);
-  });
 };
 
 window.onload = pageLoad;

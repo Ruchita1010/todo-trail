@@ -1,12 +1,12 @@
 import {
   deleteProjectFromLocalStorage,
   saveProjectToLocalStorage,
-} from './localStorage';
-import { displayProjectTodos } from './todos';
+} from '../localStorage';
+import { displayProjectTodos } from './projectTodos';
 import {
-  appendToWrapper,
+  getActiveWrapperClass,
   getSimilarClassElements,
-  getUserInputs,
+  appendToWrapper,
 } from './utils';
 
 let selectedProjectBgImg = '';
@@ -53,24 +53,30 @@ const deleteProjectOption = (projectTitle) => {
 };
 
 const deleteProject = (e) => {
-  e.stopPropagation();
   const wrapper = document.querySelector('.projects-wrapper');
   const project = e.target.parentNode;
-  const projectTitle = e.target.parentNode.children[2].children[0].innerText;
+  const projectTitle = project.children[2].children[0].innerText;
   wrapper.removeChild(project);
   deleteProjectFromLocalStorage(projectTitle);
   deleteProjectOption(projectTitle);
 };
 
-// Listeners
-// Listening for project background images ---
+const checkClickedTarget = (e) => {
+  if (e.target.classList.contains('delete-project-btn')) {
+    deleteProject(e);
+    return;
+  }
+  displayProjectTodos(e);
+};
+
 const listenForProjects = () => {
   const projects = getSimilarClassElements('project');
   projects.forEach((project) => {
-    project.addEventListener('click', displayProjectTodos);
+    project.addEventListener('click', checkClickedTarget);
   });
 };
 
+// Listening for project background image user input ---
 const listenForProjectBgs = () => {
   const projectBgInput = document.querySelector('.project-bg-input');
   projectBgInput.addEventListener('click', (e) => {
@@ -78,36 +84,30 @@ const listenForProjectBgs = () => {
   });
 };
 
-const listenForProjectDeleteBtn = () => {
-  const deleteBtns = getSimilarClassElements('delete-project-btn');
-  deleteBtns.forEach((deleteBtn) => {
-    deleteBtn.addEventListener('click', deleteProject);
-  });
-};
-
-// Adding ---
 const addProjectOption = (projectTitle) => {
   const projectOptions = document.querySelector('#project-options');
   const projectOption = createProjectOption(projectTitle);
   projectOptions.appendChild(projectOption);
 };
 
-const addProject = () => {
-  const userInputs = getUserInputs('project-modal');
+const addProject = (userInputs) => {
   const [projectTitle] = userInputs;
   saveProjectToLocalStorage(projectTitle, 0, selectedProjectBgImg);
-  const newProject = createProject(projectTitle, 0);
-  appendToWrapper('projects-wrapper', newProject);
-  listenForProjectDeleteBtn();
   // Adds to the project-options (dropdown)
   addProjectOption(projectTitle);
+  // Adding to DOM if the tab is active
+  const activeWrapper = getActiveWrapperClass();
+  if (activeWrapper === 'projects-wrapper') {
+    const newProject = createProject(projectTitle, 0);
+    appendToWrapper('projects-wrapper', newProject);
+    listenForProjects();
+  }
 };
 
 export {
   addProject,
+  addProjectOption,
+  createProject,
   listenForProjects,
   listenForProjectBgs,
-  listenForProjectDeleteBtn,
-  createProject,
-  addProjectOption,
 };

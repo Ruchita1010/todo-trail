@@ -4,7 +4,7 @@ import {
   loadProjects,
   loadToday,
   loadWeek,
-} from './loaders';
+} from './dom/loaders';
 
 const switchTab = (e) => {
   const currentTab = e.target.classList[1];

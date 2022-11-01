@@ -1,13 +1,23 @@
 import { addProject, listenForProjectBgs } from './projects';
 import { addTodo } from './todos';
-import { closeModal, getSimilarClassElements, toggleDisplay } from './utils';
+import {
+  clearInputFields,
+  closeModal,
+  getSimilarClassElements,
+  getUserInputs,
+  toggleDisplay,
+} from './utils';
 
 const addUserInputData = (e) => {
   const clickedBtn = e.target.classList[2];
   if (clickedBtn === 'project-modal-btn') {
-    addProject();
+    const userInputs = getUserInputs('project-modal');
+    addProject(userInputs);
+    clearInputFields('project-modal');
   } else {
-    addTodo();
+    const userInputs = getUserInputs('todo-modal');
+    addTodo(userInputs);
+    clearInputFields('todo-modal');
   }
   closeModal(e);
 };

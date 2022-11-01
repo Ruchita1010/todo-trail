@@ -21,9 +21,21 @@ const closeModal = (e) => {
   toggleDisplay('modal-wrapper', 'modal');
 };
 
-const getUserInputs = (parentModalElem) => {
-  const userInputs = getSimilarClassElements(`${parentModalElem} .user-input`);
+const getUserInputs = (modalClass) => {
+  const userInputs = getSimilarClassElements(`${modalClass} .user-input`);
   return [...userInputs].map((userInput) => userInput.children[1].value);
+};
+
+const clearInputFields = (modalClass) => {
+  const userInputs = getSimilarClassElements(`${modalClass} .user-input`);
+  const dropdownInputs = document.getElementsByTagName('select');
+  userInputs.forEach((userInput) => {
+    userInput.children[1].value = '';
+  });
+  // Puts default value in the dropdown as above code renders them empty
+  [...dropdownInputs].forEach((dropdownInput) => {
+    dropdownInput.selectedIndex = 0;
+  });
 };
 
 /* an array of classes to which the todo can be added is created and if the active wrapper class
@@ -71,13 +83,14 @@ const updateMain = (wrapper) => {
 };
 
 export {
-  getSimilarClassElements,
-  toggleDisplay,
-  closeModal,
-  getUserInputs,
+  appendToWrapper,
   checkTodo,
+  clearInputFields,
+  closeModal,
   createWrapper,
   getActiveWrapperClass,
-  appendToWrapper,
+  getSimilarClassElements,
+  getUserInputs,
+  toggleDisplay,
   updateMain,
 };
