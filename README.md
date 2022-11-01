@@ -43,7 +43,7 @@ Todo List built with HTML, CSS, Javascript, Webpack and date-fns, uuid libraries
 
 ## Preview
 
-### Todo
+### Todos
 
 ![image](./src/assets/preview-images/todos-preview.png)
 
