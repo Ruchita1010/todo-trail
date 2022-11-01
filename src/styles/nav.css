@@ -138,6 +138,13 @@ nav {
   }
 }
 
+/* For Tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .icon-nav {
+    font-size: 4vmax;
+  }
+}
+
 /* For mobile devices */
 @media (max-width: 480px) {
   nav {
