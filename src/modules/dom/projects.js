@@ -8,12 +8,16 @@ import {
   getSimilarClassElements,
   appendToWrapper,
 } from './utils';
+import pattern0 from '../../assets/pattern-images/pattern-0.png';
+
 import { v4 as uuidv4 } from 'uuid';
 
-let selectedProjectBgImg = 'pattern-0.png';
+let selectedProjectBgImg = pattern0;
 const setProjectBg = (e) => {
   const imgPath = e.target.src;
+  console.log(imgPath);
   selectedProjectBgImg = imgPath.split('/').pop();
+  console.log(selectedProjectBgImg);
 };
 
 const createProjectOption = (projectTitle) => {
@@ -38,7 +42,7 @@ const createProject = (
       delete
     </span>
   </button>
-  <img src="../src/assets/${projectBg}" alt="" />
+  <img src="${projectBg}" alt="" />
   <div class="project-details">
     <h3 class="project-title">${projectTitle}</h3>
     <p class="high-priority-stats">High priority tasks: ${highPriorityTasksCount}</p>
