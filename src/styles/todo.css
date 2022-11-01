@@ -61,12 +61,16 @@ input[type='checkbox'] {
 
 .delete-todo-btn {
   place-self: center end;
-  padding: 3px;
-  font-size: 2.2vmax;
+  padding: 2px;
   background-color: var(--transparent-secondary);
   border-radius: 2px;
+  border: none;
   /* the events on its parent are disables, so we need to allow events for this explicitly */
   pointer-events: all;
+}
+
+.delete-todo-icon {
+  font-size: 2.4vmax;
 }
 
 .delete-todo-btn:hover {

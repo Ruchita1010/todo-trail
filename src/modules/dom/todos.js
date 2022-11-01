@@ -25,7 +25,7 @@ const createTodo = (
     <span class="due-date-label">${date}</span>
     <span class="priority-label">${priority}</span>
     <button class="delete-todo-btn">
-      <span class="material-symbols-outlined icon"> delete </span>
+      <span class="material-symbols-outlined delete-todo-icon icon"> delete </span>
     </button>
   </div>
   <div class="todo-content">
