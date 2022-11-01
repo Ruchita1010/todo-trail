@@ -49,12 +49,13 @@ input[type='checkbox'] {
   flex-direction: column;
   padding: 0 2vmax 1vmax 2vmax;
   font-size: 1.5vmax;
+  letter-spacing: 1px;
   /* so that e.target only results to the todo elem */
   pointer-events: none;
 }
 
 .todo-title {
-  font-size: 2.2vmax;
+  font-size: 1.8vmax;
   font-weight: bold;
   padding: 0 0 10px 0px;
 }

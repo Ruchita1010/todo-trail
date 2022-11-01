@@ -18,9 +18,22 @@ body {
   --elem-shadow: hsl(0, 0%, 76%);
 }
 
+@font-face {
+  font-family: 'SourceSansPro';
+  src: url('../assets/fonts/SourceSansPro.ttf');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SansMateo';
+  src: url('../assets/fonts/SansMateo.ttf');
+  font-style: normal;
+}
+
 .container {
   display: flex;
   height: 100vh;
+  font-family: 'SourceSansPro';
 }
 
 .icon {
