@@ -5,7 +5,11 @@ import {
   updateCheckedAttrInLocalStorage,
   updateCountInLocalStorage,
 } from '../localStorage';
-import { appendToWrapper, checkTodo, getActiveWrapperClass } from './utils';
+import {
+  appendToWrapper,
+  addAndCheckActiveWrapperClass,
+  getActiveWrapperClass,
+} from './utils';
 import { v4 as uuidv4 } from 'uuid';
 
 const createTodo = (
@@ -89,31 +93,29 @@ const listenForTodos = () => {
 // Adding elements ---
 const addTodo = (userInputs) => {
   const [todoTitle, description, dueDate, projectTitle, priority] = userInputs;
-  if (todoTitle === '') return;
-  const todoId = uuidv4();
-  saveTodoToLocalStorage(
-    todoId,
+  if (!todoTitle) return;
+  const todo = {
+    todoId: uuidv4(),
     todoTitle,
     description,
     dueDate,
-    projectTitle,
-    priority
-  );
+    priority,
+    checkedattr: '',
+  };
+  saveTodoToLocalStorage(todo, projectTitle);
   // Adding to DOM if the tab is active
   const wrapperClass = getActiveWrapperClass();
-  const todoContainsActive = checkTodo(projectTitle, dueDate, wrapperClass);
+  const todoHasActiveWrapperClass = addAndCheckActiveWrapperClass(
+    projectTitle,
+    dueDate,
+    wrapperClass
+  );
   /* instead of calling the required load functions again (resulting in reloading of the 
   localStorage data), we can check the active tab(wrapper) and add the new element 
   directly to the DOM after saving it to localStorage */
-  if (todoContainsActive) {
-    const newTodo = createTodo(
-      todoId,
-      todoTitle,
-      description,
-      dueDate,
-      priority
-    );
-    appendToWrapper(wrapperClass, newTodo);
+  if (todoHasActiveWrapperClass) {
+    const todoElement = createTodo(todo);
+    appendToWrapper(wrapperClass, todoElement);
     listenForTodos();
   }
   if (projectTitle !== 'all' && priority === 'High') {

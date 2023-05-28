@@ -40,7 +40,11 @@ const clearInputFields = (modalClass) => {
 
 /* an array of classes to which the todo can be added is created and if the active wrapper class
 is included in the array, then the todo can added to the active wrapper  */
-const checkTodo = (projectTitle, dueDate, activeWrapperClass) => {
+const addAndCheckActiveWrapperClass = (
+  projectTitle,
+  dueDate,
+  activeWrapperClass
+) => {
   let todoClasses = [];
   if (isToday(parseISO(dueDate))) {
     todoClasses.push('today-wrapper');
@@ -84,7 +88,7 @@ const updateMain = (wrapper) => {
 
 export {
   appendToWrapper,
-  checkTodo,
+  addAndCheckActiveWrapperClass,
   clearInputFields,
   closeModal,
   createWrapper,

@@ -4,23 +4,7 @@ const initLocalStorage = () => {
   localStorage.setItem('projects', JSON.stringify(projects));
 };
 
-const saveTodoToLocalStorage = (
-  todoId,
-  todoTitle,
-  description,
-  dueDate,
-  inputtedProjectTitle,
-  priority,
-  checkedattr = ''
-) => {
-  const todo = {
-    todoId,
-    todoTitle,
-    description,
-    dueDate,
-    priority,
-    checkedattr,
-  };
+const saveTodoToLocalStorage = (todo, inputtedProjectTitle) => {
   const storedProjects = JSON.parse(localStorage.getItem('projects'));
   storedProjects.forEach((storedProject) => {
     if (storedProject.projectTitle === inputtedProjectTitle) {
