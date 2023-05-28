@@ -58,14 +58,23 @@
   margin: 10px 0 2rem 0;
 }
 
-.project-bg {
+/* hiding the radio buttons */
+[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.project-bg-img {
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.project-bg:hover {
+.project-bg-img:hover,
+[type='radio']:checked + .project-bg-img {
   cursor: pointer;
   transform: scale(1.1);
   border: 1px solid var(--secondary);

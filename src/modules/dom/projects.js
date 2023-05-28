@@ -9,16 +9,7 @@ import {
   appendToWrapper,
 } from './utils';
 import pattern0 from '../../assets/pattern-images/pattern-0.png';
-
 import { v4 as uuidv4 } from 'uuid';
-
-let selectedProjectBgImg = pattern0;
-const setProjectBg = (e) => {
-  const imgPath = e.target.src;
-  console.log(imgPath);
-  selectedProjectBgImg = imgPath.split('/').pop();
-  console.log(selectedProjectBgImg);
-};
 
 const createProjectOption = (projectTitle) => {
   const projectOption = document.createElement('option');
@@ -27,12 +18,12 @@ const createProjectOption = (projectTitle) => {
   return projectOption;
 };
 
-const createProject = (
+const createProject = ({
   projectId,
   projectTitle,
+  projectBg,
   highPriorityTasksCount,
-  projectBg = selectedProjectBgImg
-) => {
+}) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
   newProject.dataset.projectId = projectId;
@@ -84,40 +75,39 @@ const listenForProjects = () => {
   });
 };
 
-// Listening for project background image user input ---
-const listenForProjectBgs = () => {
-  const projectBgInput = document.querySelector('.project-bg-input');
-  projectBgInput.addEventListener('click', (e) => {
-    setProjectBg(e);
-  });
-};
-
 const addProjectOption = (projectTitle) => {
   const projectOptions = document.querySelector('#project-options');
   const projectOption = createProjectOption(projectTitle);
   projectOptions.appendChild(projectOption);
 };
 
+const createProjectObject = (projectTitle) => {
+  const projectId = uuidv4();
+  const projectBg =
+    document.querySelector('input[name="project-bg"]:checked')?.value ??
+    pattern0;
+  return {
+    projectId,
+    projectTitle,
+    projectBg,
+    highPriorityTasksCount: 0,
+  };
+};
+
 const addProject = (userInputs) => {
   const [projectTitle] = userInputs;
-  if (projectTitle === '') return;
-  const projectId = uuidv4();
-  saveProjectToLocalStorage(projectId, projectTitle, 0, selectedProjectBgImg);
+  if (!projectTitle) return;
+  const project = createProjectObject(projectTitle);
+  saveProjectToLocalStorage(project);
   // Adds to the project-options (dropdown)
   addProjectOption(projectTitle);
   // Adding to DOM if the tab is active
   const activeWrapper = getActiveWrapperClass();
   if (activeWrapper === 'projects-wrapper') {
-    const newProject = createProject(projectId, projectTitle, 0);
-    appendToWrapper('projects-wrapper', newProject);
+    const projectElement = createProject(project);
+    appendToWrapper('projects-wrapper', projectElement);
     listenForProjects();
   }
 };
 
-export {
-  addProject,
-  addProjectOption,
-  createProject,
-  listenForProjects,
-  listenForProjectBgs,
-};
+export { addProject, addProjectOption, createProject, listenForProjects };

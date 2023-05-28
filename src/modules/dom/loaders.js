@@ -54,23 +54,11 @@ const loadCreateOptions = () => {
 
 const loadProjects = () => {
   const wrapper = createWrapper(['projects-wrapper']);
-  const projects = getUserCreatedProjects();
-  projects.forEach(
-    ({
-      projectId,
-      projectTitle,
-      highPriorityTasksCount,
-      selectedProjectBg,
-    }) => {
-      const project = createProject(
-        projectId,
-        projectTitle,
-        highPriorityTasksCount,
-        selectedProjectBg
-      );
-      wrapper.appendChild(project);
-    }
-  );
+  const userCreatedProjects = getUserCreatedProjects();
+  userCreatedProjects.forEach((userCreatedProject) => {
+    const project = createProject(userCreatedProject);
+    wrapper.appendChild(project);
+  });
   updateMain(wrapper);
   listenForProjects();
 };

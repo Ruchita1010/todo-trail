@@ -30,20 +30,9 @@ const saveTodoToLocalStorage = (
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };
 
-const saveProjectToLocalStorage = (
-  projectId,
-  projectTitle,
-  highPriorityTasksCount,
-  selectedProjectBg
-) => {
-  const project = {
-    projectId,
-    projectTitle,
-    highPriorityTasksCount,
-    selectedProjectBg,
-    todos: [],
-  };
+const saveProjectToLocalStorage = (projectData) => {
   const storedProjects = JSON.parse(localStorage.getItem('projects'));
+  const project = { ...projectData, todos: [] };
   storedProjects.push(project);
   localStorage.setItem('projects', JSON.stringify(storedProjects));
 };

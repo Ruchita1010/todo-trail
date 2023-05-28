@@ -1,5 +1,5 @@
 import loadProjectBgsOptions from './projectBgs';
-import { addProject, listenForProjectBgs } from './projects';
+import { addProject } from './projects';
 import { addTodo } from './todos';
 import {
   clearInputFields,
@@ -50,9 +50,6 @@ const showCreateOption = (e) => {
   } else {
     loadProjectBgsOptions();
     toggleDisplay('project-modal', 'modal');
-    /* Cannot be called in addUserInputData or elsewhere 'cause event listener is not getting 
-    added to projectBg (Reason yet unknown) */
-    listenForProjectBgs();
   }
   listenForDoneBtns();
   listenForCloseBtnClick();
