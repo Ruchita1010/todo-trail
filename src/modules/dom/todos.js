@@ -52,8 +52,6 @@ const deleteTodo = (e) => {
   const wrapper = document.querySelector('.todos-wrapper');
   const todo = e.target.parentNode.parentNode;
   const todoId = todo.dataset.todoId;
-  // const todoTitle =
-  // e.target.parentNode.nextElementSibling.children[0].innerText;
   wrapper.removeChild(todo);
   deleteTodoFromLocalStorage(todoId);
   const projectTitle = e.currentTarget.classList[0].replace(/-wrapper/, '');
