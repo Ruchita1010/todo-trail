@@ -7,7 +7,6 @@ import switchTab from './modules/switchTab';
 import { getProjectOptions } from './modules/dataModifiers';
 import { addProjectOption } from './modules/dom/projects';
 import { loadDefaultProjectTodos } from './modules/dom/loaders';
-import { initLocalStorage } from './modules/localStorage';
 import { getSimilarClassElements } from './modules/dom/utils';
 
 const listenForNavItemClick = () => {
@@ -17,20 +16,16 @@ const listenForNavItemClick = () => {
   });
 };
 
-const loadProjectOptionsFromLocalStorage = () => {
-  const storedProjectsTitles = getProjectOptions();
+const loadProjectOptionsFromFirebase = async () => {
+  const storedProjectsTitles = await getProjectOptions();
   storedProjectsTitles.forEach((storedProjectTitle) => {
     addProjectOption(storedProjectTitle);
   });
 };
 
 const pageLoad = () => {
-  if (localStorage.projects) {
-    loadDefaultProjectTodos();
-    loadProjectOptionsFromLocalStorage();
-    return;
-  }
-  initLocalStorage();
+  loadDefaultProjectTodos();
+  loadProjectOptionsFromFirebase();
 };
 
 window.onload = pageLoad;

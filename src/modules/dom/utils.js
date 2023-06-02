@@ -86,6 +86,14 @@ const updateMain = (wrapper) => {
   main.appendChild(wrapper);
 };
 
+const getImagePath = (imageName) => {
+  const imageContext = require.context('../../assets/pattern-images', true);
+  const imagePath = imageContext
+    .keys()
+    .find((path) => path.endsWith(`/${imageName}`));
+  return imagePath;
+};
+
 export {
   appendToWrapper,
   addAndCheckActiveWrapperClass,
@@ -97,4 +105,5 @@ export {
   getUserInputs,
   toggleDisplay,
   updateMain,
+  getImagePath,
 };

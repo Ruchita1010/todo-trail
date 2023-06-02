@@ -10,27 +10,27 @@ const loadProjectBgsOptions = () => {
   projectBgs.innerHTML = `<span>Background</span>
     <div class="project-bg-input">
       <label>
-        <input type="radio" name="project-bg" value=${pattern1}>
+        <input type="radio" name="project-bg" value="pattern-1.png">
         <img src=${pattern1} alt="colorless objects; theme: planets and instruments" class="project-bg-img">
       </label>
       <label>
-        <input type="radio" name="project-bg" value=${pattern2}">
+        <input type="radio" name="project-bg" value="pattern-2.png">
         <img src=${pattern2} alt="colorless objects; theme: planets and instruments" class="project-bg-img" />
       </label>
       <label>
-        <input type="radio" name="project-bg" value="${pattern3}">
+        <input type="radio" name="project-bg" value="pattern-3.png">
         <img src=${pattern3} alt="colorless objects; theme: beach" class="project-bg-img" />
       </label>
       <label>
-        <input type="radio" name="project-bg" value=${pattern4}>
+        <input type="radio" name="project-bg" value="pattern-4.png">
         <img src=${pattern4} alt="colorless objects; theme: kitchen" class="project-bg-img" />
       </label>
       <label>
-        <input type="radio" name="project-bg" value=${pattern5}>
+        <input type="radio" name="project-bg" value="pattern-5.png">
         <img src=${pattern5} alt="colorless objects; theme: stationery" class="project-bg-img" />
       </label>
       <label>
-        <input type="radio" name="project-bg" value=${pattern6}>
+        <input type="radio" name="project-bg" value="pattern-6.png">
         <img src=${pattern6} alt="colorless objects; theme: plant pots" class="project-bg-img" />
       </label>
     </div>

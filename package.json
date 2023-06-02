@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
+    "dotenv-webpack": "^8.0.1",
+    "firebase": "^9.22.1",
     "uuid": "^9.0.0"
   }
 }

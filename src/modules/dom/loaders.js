@@ -12,16 +12,7 @@ import { createWrapper, toggleDisplay, updateMain } from './utils';
 // helper function for loading todos
 const loadTodos = (wrapper, projectTodos) => {
   projectTodos.forEach((projectTodo) => {
-    const { todoId, todoTitle, description, dueDate, priority, checkedattr } =
-      projectTodo;
-    const todo = createTodo(
-      todoId,
-      todoTitle,
-      description,
-      dueDate,
-      priority,
-      checkedattr
-    );
+    const todo = createTodo(projectTodo);
     wrapper.appendChild(todo);
   });
   updateMain(wrapper);
@@ -29,21 +20,21 @@ const loadTodos = (wrapper, projectTodos) => {
 };
 
 // default project: all
-const loadDefaultProjectTodos = () => {
+const loadDefaultProjectTodos = async () => {
   const wrapper = createWrapper(['all-wrapper', 'todos-wrapper']);
-  const defaultProjectTodos = getDefaultProjectTodos();
+  const defaultProjectTodos = await getDefaultProjectTodos();
   loadTodos(wrapper, defaultProjectTodos);
 };
 
-const loadToday = () => {
+const loadToday = async () => {
   const wrapper = createWrapper(['today-wrapper', 'todos-wrapper']);
-  const todayTodos = getTodayTodos();
+  const todayTodos = await getTodayTodos();
   loadTodos(wrapper, todayTodos);
 };
 
-const loadWeek = () => {
+const loadWeek = async () => {
   const wrapper = createWrapper(['week-wrapper', 'todos-wrapper']);
-  const weekTodos = getWeekTodos();
+  const weekTodos = await getWeekTodos();
   loadTodos(wrapper, weekTodos);
 };
 
@@ -52,9 +43,9 @@ const loadCreateOptions = () => {
   listenForCreateOptionClick();
 };
 
-const loadProjects = () => {
+const loadProjects = async () => {
   const wrapper = createWrapper(['projects-wrapper']);
-  const userCreatedProjects = getUserCreatedProjects();
+  const userCreatedProjects = await getUserCreatedProjects();
   userCreatedProjects.forEach((userCreatedProject) => {
     const project = createProject(userCreatedProject);
     wrapper.appendChild(project);

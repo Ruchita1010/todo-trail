@@ -1,15 +1,14 @@
 import {
-  deleteProjectFromLocalStorage,
-  saveProjectToLocalStorage,
-} from '../localStorage';
+  deleteProjectFromFirebase,
+  saveProjectToFirebase,
+} from '../firebase/firebaseDataActions';
 import { displayProjectTodos } from './projectTodos';
 import {
   getActiveWrapperClass,
   getSimilarClassElements,
   appendToWrapper,
+  getImagePath,
 } from './utils';
-import pattern0 from '../../assets/pattern-images/pattern-0.png';
-import { v4 as uuidv4 } from 'uuid';
 
 const createProjectOption = (projectTitle) => {
   const projectOption = document.createElement('option');
@@ -19,21 +18,20 @@ const createProjectOption = (projectTitle) => {
 };
 
 const createProject = ({
-  projectId,
   projectTitle,
-  projectBg,
+  backgroundImage,
   highPriorityTasksCount,
 }) => {
   const newProject = document.createElement('div');
   newProject.classList.add('project');
-  newProject.dataset.projectId = projectId;
+  const imgPath = getImagePath(backgroundImage);
   newProject.innerHTML = `
   <button class="delete-project-btn">
     <span class="material-symbols-outlined icon">
       delete
     </span>
   </button>
-  <img src="${projectBg}" alt="" />
+  <img src="${imgPath}" alt="" />
   <div class="project-details">
     <h3 class="project-title">${projectTitle}</h3>
     <p class="high-priority-stats">High priority tasks: ${highPriorityTasksCount}</p>
@@ -53,10 +51,9 @@ const deleteProjectOption = (projectTitle) => {
 const deleteProject = (e) => {
   const wrapper = document.querySelector('.projects-wrapper');
   const project = e.target.parentNode;
-  const projectId = project.dataset.projectId;
   const projectTitle = project.children[2].children[0].innerText;
   wrapper.removeChild(project);
-  deleteProjectFromLocalStorage(projectId);
+  deleteProjectFromFirebase(projectTitle);
   deleteProjectOption(projectTitle);
 };
 
@@ -82,14 +79,12 @@ const addProjectOption = (projectTitle) => {
 };
 
 const createProjectObject = (projectTitle) => {
-  const projectId = uuidv4();
-  const projectBg =
+  const backgroundImage =
     document.querySelector('input[name="project-bg"]:checked')?.value ??
-    pattern0;
+    'pattern-0.png';
   return {
-    projectId,
     projectTitle,
-    projectBg,
+    backgroundImage,
     highPriorityTasksCount: 0,
   };
 };
@@ -98,7 +93,7 @@ const addProject = (userInputs) => {
   const [projectTitle] = userInputs;
   if (!projectTitle) return;
   const project = createProjectObject(projectTitle);
-  saveProjectToLocalStorage(project);
+  saveProjectToFirebase(project);
   // Adds to the project-options (dropdown)
   addProjectOption(projectTitle);
   // Adding to DOM if the tab is active

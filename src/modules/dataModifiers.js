@@ -1,16 +1,18 @@
 import { isThisWeek, isToday, parseISO } from 'date-fns';
-import { retrieveStoredData } from './localStorage';
+import { retrieveStoredData } from './firebase/firebaseDataActions';
 
 // removes the default project(project having title="All")
-const getUserCreatedProjects = () => {
-  const storedData = retrieveStoredData();
-  // using slice as it will always be the first project in the array!
-  return storedData.slice(1);
+const getUserCreatedProjects = async () => {
+  const storedData = await retrieveStoredData();
+  const userCreatedProjects = storedData.filter(
+    (project) => project.projectTitle !== 'all'
+  );
+  return userCreatedProjects;
 };
 
 // default project: all
-const getDefaultProjectTodos = () => {
-  const storedProjects = retrieveStoredData();
+const getDefaultProjectTodos = async () => {
+  const storedProjects = await retrieveStoredData();
   return storedProjects
     .filter((storedProject) => storedProject.projectTitle === 'all')
     .map((storedProject) => {
@@ -19,8 +21,8 @@ const getDefaultProjectTodos = () => {
     .flat();
 };
 
-const getTodayTodos = () => {
-  const storedProjects = retrieveStoredData();
+const getTodayTodos = async () => {
+  const storedProjects = await retrieveStoredData();
   return storedProjects
     .map((storedProject) => {
       return storedProject.todos.map((todo) => todo);
@@ -29,8 +31,8 @@ const getTodayTodos = () => {
     .filter((todo) => isToday(parseISO(todo.dueDate)));
 };
 
-const getWeekTodos = () => {
-  const storedProjects = retrieveStoredData();
+const getWeekTodos = async () => {
+  const storedProjects = await retrieveStoredData();
   return storedProjects
     .map((storedProject) => {
       return storedProject.todos.map((todo) => todo);
@@ -39,28 +41,26 @@ const getWeekTodos = () => {
     .filter((todo) => isThisWeek(parseISO(todo.dueDate)));
 };
 
-const getProjectOptions = () => {
-  const storedProjects = getUserCreatedProjects();
+const getProjectOptions = async () => {
+  const storedProjects = await retrieveStoredData();
   return storedProjects.map((storedProject) => storedProject.projectTitle);
 };
 
-const getProjectTodos = (projectId) => {
-  const storedProjects = getUserCreatedProjects();
+const getProjectTodos = async (projectTitle) => {
+  const storedProjects = await getUserCreatedProjects();
   // finds the project object and returns it's todos array
   return storedProjects.find(
-    (storedProject) => storedProject.projectId === projectId
+    (storedProject) => storedProject.projectTitle === projectTitle
   ).todos;
 };
 
-const getProjectId = (todoId) => {
-  const storedProjects = getUserCreatedProjects();
-  storedProjects.forEach((storedProject) => {
-    storedProject.todos.forEach((todo) => {
-      if (todo.todoId === todoId) {
-        return storedProject.projectId;
-      }
-    });
-  });
+const getProjectId = async (projectTitle) => {
+  const projects = await retrieveStoredData();
+  for (const project of projects) {
+    if (project.projectTitle === projectTitle) {
+      return project.id;
+    }
+  }
 };
 
 export {
