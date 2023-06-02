@@ -27,7 +27,7 @@ const createTodo = ({
   newTodo.dataset.projectTitle = projectTitle;
   newTodo.innerHTML = `
   <div class="todo-header">
-    <input type="checkbox" name="todo-checkbox" id="todo-checkbox" ${checkedAttr}/>
+    <input type="checkbox" name="todo-checkbox" ${checkedAttr}/>
     <span class="due-date-label">${dueDate}</span>
     <span class="priority-label">${priority}</span>
     <button class="delete-todo-btn">
