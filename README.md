@@ -1,6 +1,6 @@
 # Todo List
 
-Todo List built with HTML, CSS, Javascript, Webpack and date-fns, uuid libraries for TheOdinProject
+Todo List built with HTML, CSS, Javascript, Firebase and Webpack for TheOdinProject
 
 ## Features
 
@@ -21,6 +21,7 @@ Todo List built with HTML, CSS, Javascript, Webpack and date-fns, uuid libraries
 
 ## Roadmap
 
+- Implement user authentication functionality
 - Display a background image along with a message when there's no todo/project to display
 - Display message when the required input fields are empty
 - Sorting functionality to allow users to sort the todos according to the priority
@@ -29,7 +30,8 @@ Todo List built with HTML, CSS, Javascript, Webpack and date-fns, uuid libraries
 
 ## Known Issues
 
-- Duplicate project titles cause confusion and inconvenience
+- Shared data, making it accessible to everyone to view the projects/todos
+- Duplicate project titles leading to unexpected behavior
 
 ## Learnings
 
