@@ -1,6 +1,15 @@
-# Todo List
+# Todo Trail
 
-Todo List built with HTML, CSS, Javascript, Firebase and Webpack for TheOdinProject
+Todo Trail is a user-friendly task management app designed to empower your productivity journey.<br>
+Prioritize, organize, and elevate your productivity with Todo Trail!
+
+## Built With
+
+![HTML5](https://img.shields.io/badge/html5-%23323330.svg?style=for-the-badge&logo=html5&logoColor=23E34F26)
+![CSS3](https://img.shields.io/badge/css3-%23323330.svg?style=for-the-badge&logo=css3&logoColor=blue)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Firebase](https://img.shields.io/badge/firebase-%23323330.svg?style=for-the-badge&logo=firebase)
+![Webpack](https://img.shields.io/badge/webpack-%23323330.svg?style=for-the-badge&logo=webpack&logoColor=238DD6F9)
 
 ## Features
 
@@ -55,4 +64,6 @@ Todo List built with HTML, CSS, Javascript, Firebase and Webpack for TheOdinProj
 
 ## Demo
 
-👉 [Live Demo](https://ruchita1010.github.io/todo-list)
+👉 [Live Demo](https://ruchita1010.github.io/todo-trail)
+
+PS: Made as a part of TheOdinProject 💜

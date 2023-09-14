@@ -1,7 +1,7 @@
 {
-  "name": "todo-list",
+  "name": "todo-trail",
   "version": "1.0.0",
-  "description": "Todo-List for TheOdinProject",
+  "description": "Todo Trail is a user-friendly task management app designed to empower your productivity journey",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
