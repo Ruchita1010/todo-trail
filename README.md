@@ -66,4 +66,4 @@ Prioritize, organize, and elevate your productivity with Todo Trail!
 
 👉 [Live Demo](https://ruchita1010.github.io/todo-trail)
 
-PS: Made as a part of TheOdinProject 💜
+Created as a part of TheOdinProject 💜
